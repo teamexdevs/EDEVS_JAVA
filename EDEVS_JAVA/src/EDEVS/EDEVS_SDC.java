@@ -8,8 +8,7 @@ import java.awt.Graphics2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-
-public class EDEVS_SDC extends JPanel  {
+public class EDEVS_SDC extends JPanel {
 	private int Width;
 	private int Height;
 	private MySDC mySDC;
@@ -26,6 +25,7 @@ public class EDEVS_SDC extends JPanel  {
 		mySDC3 = new MySDC3();
 		mySDC4 = new MySDC4();
 		mySDC5 = new MySDC5();
+
 	}
 
 	public void paintComponent(Graphics g) {
@@ -46,6 +46,22 @@ public class EDEVS_SDC extends JPanel  {
 		mySDC3.draw(g);
 		mySDC4.draw(g);
 		mySDC5.draw(g);
+		//System.out.println("repainted");
+	}
+
+	public void start() {
+		while (true) {
+			//0.5√ ∏∂¥Ÿ
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// repaint
+			repaint();
+     		//System.out.println("moved");
+		}
 	}
 
 	public static void main(String[] args) {
@@ -56,6 +72,7 @@ public class EDEVS_SDC extends JPanel  {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1500, 500);
 		frame.setVisible(true);
+		Sdc.start();
 	}
 }
 
@@ -66,6 +83,7 @@ class MySDC {
 	private int Height = 10;
 	private int radius = 10;
 	private Color MyColor;
+	private int velocity = 5;
 
 	public MySDC() {
 	}
@@ -80,6 +98,8 @@ class MySDC {
 	}
 
 	public void draw(Graphics g) {
+		this.x += velocity;
+
 		g.setColor(Color.YELLOW);
 		g.fillRect(x + 40, y + 40, Width + 40, Height + 30);
 		g.fillRect(x + 20, y + 60, Width + 80, Height + 20);
@@ -101,6 +121,7 @@ class MySDC2 {
 	private int Height = 10;
 	private int radius = 10;
 	private Color MyColor;
+	private int velocity = 5;
 
 	public MySDC2() {
 	}
@@ -115,6 +136,8 @@ class MySDC2 {
 	}
 
 	public void draw(Graphics g) {
+		this.x += velocity;
+		
 		g.setColor(Color.GREEN);
 		g.fillRect(x + 20, y + 190, Width + 90, Height + 45);
 		g.fillRect(x + 120, y + 215, Width + 15, Height + 20);
@@ -136,6 +159,7 @@ class MySDC3 {
 	private int Height = 10;
 	private int radius = 10;
 	private Color MyColor;
+	private int velocity = 5;
 
 	public MySDC3() {
 	}
@@ -150,22 +174,19 @@ class MySDC3 {
 	}
 
 	public void draw(Graphics g) {
-		int xPoints[] = { x + 120, y + 150, z + 110 };
-		int yPoints[] = { x + 330, y + 385, z + 385 };
-		int nPoints = 3;
+		this.x += velocity;
 
 		g.setColor(Color.WHITE);
-		g.fillRect(x + 20, y + 330, Width + 90, Height + 45);
-		g.fillPolygon(xPoints, yPoints, nPoints);
+		g.fillRect(x + 20, y + 330, Width + 105, Height + 45);
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(x + 140, y + 360, Width + 20, Height + 20);
 		g.setColor(Color.BLACK);
 		g.fillOval(x + 40, y + 380, radius + 10, radius + 10);
 		g.fillOval(x + 95, y + 380, radius + 10, radius + 10);
 		g.setColor(Color.CYAN);
-		g.fillRect(x + 95, y + 340, Width + 10, Height + 5);
+		g.fillRect(x + 95, y + 340, Width + 15, Height + 5);
 		g.setColor(Color.RED);
-		g.fillRect(x + 70, y + 320, Width, Height);
+		g.fillRect(x + 75, y + 320, Width, Height);
 		g.setColor(Color.GREEN);
 		g.fillRect(x + 50, y + 348, Width + 15, Height);
 		g.fillRect(x + 58, y + 340, Width, Height + 15);
@@ -179,7 +200,8 @@ class MySDC4 {
 	private int Height = 10;
 	private int radius = 10;
 	private Color MyColor;
-
+	private int velocity = 5;
+	
 	public MySDC4() {
 	}
 
@@ -193,6 +215,7 @@ class MySDC4 {
 	}
 
 	public void draw(Graphics g) {
+		this.x += velocity;
 		g.setColor(Color.PINK);
 		g.fillRect(x + 328, y + 40, Width + 35, Height + 30);
 		g.fillRect(x + 290, y + 60, Width + 110, Height + 20);
@@ -216,7 +239,8 @@ class MySDC5 {
 	private int Height = 10;
 	private int radius = 10;
 	private Color MyColor;
-
+	private int velocity = 5;
+	
 	public MySDC5() {
 	}
 
@@ -230,6 +254,7 @@ class MySDC5 {
 	}
 
 	public void draw(Graphics g) {
+		this.x += velocity;
 		g.setColor(Color.WHITE);
 		g.fillRect(x + 318, y + 190, Width + 45, Height + 30);
 		g.fillRect(x + 290, y + 215, Width + 100, Height + 20);
