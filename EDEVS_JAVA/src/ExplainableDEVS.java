@@ -1,5 +1,3 @@
-package EDEVS;
-
 import EDEVS.car.Ambulance;
 import EDEVS.car.Sedan;
 import EDEVS.car.Taxi;
@@ -58,6 +56,10 @@ public class ExplainableDEVS extends JPanel {
 	}
 
 	public static void main(String[] args) {
+		execute();
+	}
+
+	public static void execute() {
 		JFrame frame = new JFrame();
 		ExplainableDEVS Sdc = new ExplainableDEVS();
 		frame.add(Sdc);

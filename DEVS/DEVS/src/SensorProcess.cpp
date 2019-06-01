@@ -11,7 +11,7 @@ void SensorProcess::ExtTransitionFN(double time, DevsMessage message) {
 	Display(Name + "(EXT) --> ");
 	if (message.ContentPort() == "in") {
 		queue.push(message.ContentValue());
-		Display(message.ContentPort() + ":");
+		Display(message.ContentPort() + ":" + message.ContentValue());
 		if (Phase == "busy") {
 			Continue();
 		}

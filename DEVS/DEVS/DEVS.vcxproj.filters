@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="헤더 파일\jvm">
+      <UniqueIdentifier>{b3729a96-b50e-4922-8a9e-be6379737207}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\jvm">
+      <UniqueIdentifier>{31ae747c-078d-4393-9051-e8fc029e44c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\kernel">
+      <UniqueIdentifier>{097da94c-f079-4674-8133-2be2730e4f23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\kernel">
+      <UniqueIdentifier>{4950192d-5b66-4941-9b7c-b81bcd9226a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Process.cpp">
@@ -27,44 +39,47 @@
     <ClCompile Include="src\SensorProcess.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="kernel\src\Atomic.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="kernel\src\Coupled.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="kernel\src\Digraph.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="kernel\src\Entity.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="kernel\src\Entstr.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="kernel\src\main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="kernel\src\Model.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="kernel\src\Output.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="kernel\src\Port.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="kernel\src\MList.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="kernel\src\Message.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="kernel\src\List.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="src\Transducer.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="jvm\JvmWrapper.cpp">
+      <Filter>소스 파일\jvm</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\Atomic.cpp">
+      <Filter>소스 파일\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\Coupled.cpp">
+      <Filter>소스 파일\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\Digraph.cpp">
+      <Filter>소스 파일\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\Entity.cpp">
+      <Filter>소스 파일\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\Entstr.cpp">
+      <Filter>소스 파일\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\List.cpp">
+      <Filter>소스 파일\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\Message.cpp">
+      <Filter>소스 파일\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\MList.cpp">
+      <Filter>소스 파일\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\Model.cpp">
+      <Filter>소스 파일\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\Output.cpp">
+      <Filter>소스 파일\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\Port.cpp">
+      <Filter>소스 파일\kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\main.cpp">
+      <Filter>소스 파일\kernel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,44 +92,47 @@
     <ClInclude Include="include\SensorProcess.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="kernel\include\Atomic.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="kernel\include\Coupled.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="kernel\include\DEVSDEF.H">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="kernel\include\Digraph.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="kernel\include\Entity.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="kernel\include\Entstr.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="kernel\include\List.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="kernel\include\Message.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="kernel\include\MList.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="kernel\include\Model.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="kernel\include\Port.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="kernel\include\Tglobal.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="include\Transducer.hpp">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="jvm\JvmWrapper.hpp">
+      <Filter>헤더 파일\jvm</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\Atomic.hpp">
+      <Filter>헤더 파일\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\Coupled.hpp">
+      <Filter>헤더 파일\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\DEVSDEF.H">
+      <Filter>헤더 파일\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\Digraph.hpp">
+      <Filter>헤더 파일\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\Entity.hpp">
+      <Filter>헤더 파일\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\Entstr.hpp">
+      <Filter>헤더 파일\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\List.hpp">
+      <Filter>헤더 파일\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\Message.hpp">
+      <Filter>헤더 파일\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\MList.hpp">
+      <Filter>헤더 파일\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\Model.hpp">
+      <Filter>헤더 파일\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\Port.hpp">
+      <Filter>헤더 파일\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\Tglobal.h">
+      <Filter>헤더 파일\kernel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

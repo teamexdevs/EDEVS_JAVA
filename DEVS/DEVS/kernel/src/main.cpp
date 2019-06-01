@@ -6,8 +6,15 @@
 #include "../../include/Process.hpp"
 #include "../../include/SensorProcess.hpp"
 
+#include "../../jvm/JvmWrapper.hpp"
+
 int main()
 {
+	// Jvm
+	JvmWrapper *jvm = new JvmWrapper();
+	jvm->init();
+
+	// DEVS
 	EntStr *efp = new EntStr("ef-p");
 
 	SensorProcess *sensorProcess = new SensorProcess("SensorProcess");
