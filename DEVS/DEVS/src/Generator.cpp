@@ -1,5 +1,4 @@
 #include "../include/Generator.hpp"
-#include <iostream>
 
 Generator::Generator() : Atomic() {
 	SetName("Generator");
@@ -10,46 +9,24 @@ Generator::Generator(std::string EName) : Atomic(EName) {
 }
 
 void Generator::ExtTransitionFN(double E, DevsMessage X){
-	char GeneratorMessage[100]={0,}; 
-
-	Display(Name); Display("(EXT) --> :");
-	Display(X.ContentPort()); Display(": ");
-	sprintf(GeneratorMessage,"When: %lf",AddTime(GetLastEventTime(),E));
-	Display(GeneratorMessage);
-
+	Display(Name + "(EXT) --> :" + X.ContentPort() + ": When: " + std::to_string(AddTime(GetLastEventTime(), E)));
 	if (X.ContentPort() == "stop") Passivate();
 	NewLine();
 }
 
-void Generator::IntTransitionFN(void){
-	char GeneratorMessage[100]={0,}; 
-
-	Display(Name); Display("(INT) --> ");
-	sprintf(GeneratorMessage,"Sigma: %lf  When: %lf",Sigma, AddTime(GetLastEventTime(),Sigma));
-	Display(GeneratorMessage);
+void Generator::IntTransitionFN(void) {
+	Display(Name + "(INT) --> Sigma: " + std::to_string(Sigma) + " / When: " + std::to_string(AddTime(GetLastEventTime(), Sigma)));
 	if (Phase == "busy") { HoldIn("busy", InterArrivalTime); }
 	else { Passivate(); }
 	NewLine();
 }
 
 void Generator::OutputFN(void){
-	std::string O;
-	char Num[100]={0,};
-	char GeneratorMessage[10000]={0,}; 
-
-	Display(Name); Display("(OUT) --> ");
-	std::cout << "GeneratorMessage: " << GeneratorMessage << " >> ";
-	sprintf(GeneratorMessage,"Phase: %s  Sigma: %lf  When: %lf", Phase.c_str(), Sigma,GetNextEventTime());
-	std::cout << GeneratorMessage << std::endl;
-	Display(GeneratorMessage); NewLine();
+	Display(Name + "(OUT) --> Phase: " + Phase.c_str() + " / Sigma: " + std::to_string(Sigma) + " / When: " + std::to_string(GetNextEventTime()));
+	NewLine();
 
 	if (Phase == "busy") {
-		std::cout << "Num: " << Num << " >> ";
-		sprintf(Num,"%d",Count++);
-		std::cout << Num << std::endl;
-		O = "Job-";
-		O += Num;
-		MakeContent("out", O);
+		MakeContent("out", "Job-" + std::to_string(Count++));
 	}
 	else MakeContent();
 }

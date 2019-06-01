@@ -1,19 +1,19 @@
+#include "../kernel/include/Tglobal.h"
+
 #include "../include/Transducer.hpp"
 
-Transducer::Transducer(std::string EName) : Atomic(EName){
-	  SetName(Name);
+Transducer::Transducer(std::string EName) : Atomic(EName) {
+	SetName(Name);
 }
 
-void Transducer::ExtTransitionFN(double E, DevsMessage X){
-	 JobID = X.ContentValue();
-	 std::cout << "JobID: " << JobID << std::endl;
-	 clock += E;
+void Transducer::ExtTransitionFN(double E, DevsMessage X) {
+	JobID = X.ContentValue();
+	Display("JobID: " + JobID);
+	NewLine();
+	clock += E;
 
-	 Display(Name); Display("(EXT) --> :"); 
-	 Display(X.ContentPort());
-	 Display(":"); Display(JobID); 
-	 Display(" at "); Display(clock);
-	 NewLine();
+	Display(Name + "(EXT) --> :" + X.ContentPort() + ":" + JobID + " at " + std::to_string(clock));
+	NewLine();
 	 if (Phase == "active"){
 	     if (X.ContentPort() == "arriv")       {
 	         Arrive.Jobs[Arrive.Num].ID = JobID;
@@ -30,7 +30,8 @@ void Transducer::ExtTransitionFN(double E, DevsMessage X){
 }
 
 void Transducer::IntTransitionFN(void) {
-	 Display(Name); Display("(INT) --> "); NewLine();
+	 Display(Name + "(INT) --> ");
+	 NewLine();
 
 	 if (Phase == "active") {
 	     PrintArrive();
@@ -41,7 +42,8 @@ void Transducer::IntTransitionFN(void) {
 }
 
 void Transducer::OutputFN(void) {
-	 Display(Name); Display("(OUT) --> "); NewLine();
+	 Display(Name + "(OUT) --> ");
+	 NewLine();
 	 if (Phase == "active") 
 		 MakeContent("out", "NULL");
 	 else MakeContent();
@@ -61,10 +63,8 @@ void Transducer::PrintArrive(void){
 	 NewLine();
      Display("   ---------------------< Arrived Jobs >---------------------");
 	 NewLine();
-	 for (int i = 0; i< Arrive.Num; i++){
-	     Display("("); Display(Arrive.Jobs[i].ID); 
-		 Display(","); Display(Arrive.Jobs[i].Time);
-		 Display(") ");
+	 for (int i = 0; i < Arrive.Num; i++) {
+	     Display("(" + Arrive.Jobs[i].ID + "," + std::to_string(Arrive.Jobs[i].Time) + ") ");
 	 }
 	 NewLine();
 }
@@ -73,10 +73,8 @@ void Transducer::PrintSolve(void){
 	 NewLine();
      Display("   ---------------------< Solved Jobs >---------------------");
 	 NewLine();
-	 for (int i = 0; i< Solve.Num; i++){
-	     Display("("); Display(Solve.Jobs[i].ID); 
-		 Display(","); Display(Solve.Jobs[i].Time);
-		 Display(") ");
+	 for (int i = 0; i < Solve.Num; i++) {
+	     Display("(" + Solve.Jobs[i].ID + "," + std::to_string(Solve.Jobs[i].Time) + ") ");
 	 }
 	 NewLine();
 }

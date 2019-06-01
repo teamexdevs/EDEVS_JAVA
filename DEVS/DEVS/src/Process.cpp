@@ -6,7 +6,7 @@ Process::Process(std::string entity_name) : Atomic(entity_name) {
 }
 
 void Process::ExtTransitionFN(double Time, DevsMessage MSG) {
-	Display(Name); Display("(EXT) --> ");
+	Display(Name + "(EXT) --> ");
 	if (MSG.ContentPort() == "in") {
 
 		// Put job into the Queue
@@ -14,7 +14,7 @@ void Process::ExtTransitionFN(double Time, DevsMessage MSG) {
 		{
 			try {
 				Queue[Tail++] = MSG.ContentValue();
-				Display(MSG.ContentPort()); Display(":"); Display(JobID);
+				Display(MSG.ContentPort() + ":" + JobID);
 			}
 			catch (std::length_error e) {
 				std::cerr << e.what() << std::endl;
@@ -35,14 +35,14 @@ void Process::ExtTransitionFN(double Time, DevsMessage MSG) {
 }
 
 void Process::IntTransitionFN(void) {
-	Display(Name); Display("(INT) --> ");
+	Display(Name + "(INT) --> ");
 	if (Phase == "busy"){
 		// Get job from the Queue
 		if(Front != Tail)
 		{
 			// processing
 			JobID = Queue[Front++];
-			Display(" process : "); Display(JobID);
+			Display(" process : " + JobID);
 			HoldIn("busy",PTime);
 		}
 		else
@@ -53,7 +53,7 @@ void Process::IntTransitionFN(void) {
 }
 
 void Process::OutputFN(void) {
-	Display(Name); Display("(OUT) --> ");
+	Display(Name + "(OUT) --> ");
 	
 	if (Phase == "busy"){ 
 		MakeContent("out", JobID);

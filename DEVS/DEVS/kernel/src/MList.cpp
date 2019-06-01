@@ -232,9 +232,8 @@ void MList::DisplayMinTime(void){
 	if (p == nullptr) return;
 
 	do {
-		char ttt[100];
-		Display(p->Model->Name); Display(": "); sprintf(ttt,"%lf",p->WaitTime);
-		Display(ttt); NewLine();
+		Display(p->Model->Name + ": " + std::to_string(p->WaitTime));
+		NewLine();
 
 		if (p == Tail) break;
 		p = p->Next;

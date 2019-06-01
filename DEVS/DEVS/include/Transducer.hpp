@@ -1,7 +1,6 @@
 #ifndef __TRANSDUCER_HPP__
 #define __TRANSDUCER_HPP__
 
-#include "../kernel/include/Tglobal.h"
 #include "../kernel/include/Atomic.hpp"
 
 typedef struct {
