@@ -1,5 +1,6 @@
 *.class
 .vs/
+.vscode/
 Debug/
 /bin/
 
