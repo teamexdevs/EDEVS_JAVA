@@ -1,8 +1,8 @@
-#ifndef __TRANSD_HPP__
-#define __TRANSD_HPP__
+#ifndef __TRANSDUCER_HPP__
+#define __TRANSDUCER_HPP__
 
-#include "Tglobal.h"
-#include "Atomic.hpp"
+#include "../kernel/include/Tglobal.h"
+#include "../kernel/include/Atomic.hpp"
 
 typedef struct {
     std::string ID;
@@ -14,14 +14,14 @@ typedef struct {
 	int Num;
 } JOBS;
 
-class Transd : public Atomic {
+class Transducer : public Atomic {
 public:
     std::string JobID;
 	double  clock;
     JOBS    Arrive, Solve;
 
 public:
-	Transd(std::string);
+	Transducer(std::string);
 
     void ExtTransitionFN(double,DevsMessage);
 	void IntTransitionFN(void);
@@ -32,4 +32,4 @@ public:
 	void PrintSolve(void);
 };
 
-#endif	// __TRANSD_HPP__
+#endif	// __TRANSDUCER_HPP__

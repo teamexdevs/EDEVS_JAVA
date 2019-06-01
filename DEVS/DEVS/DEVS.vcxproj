@@ -139,39 +139,41 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Atomic.cpp" />
-    <ClCompile Include="src\Coupled.cpp" />
-    <ClCompile Include="src\Digraph.cpp" />
-    <ClCompile Include="src\Entity.cpp" />
-    <ClCompile Include="src\Entstr.cpp" />
+    <ClCompile Include="kernel\src\Atomic.cpp" />
+    <ClCompile Include="kernel\src\Coupled.cpp" />
+    <ClCompile Include="kernel\src\Digraph.cpp" />
+    <ClCompile Include="kernel\src\Entity.cpp" />
+    <ClCompile Include="kernel\src\Entstr.cpp" />
+    <ClCompile Include="kernel\src\List.cpp" />
+    <ClCompile Include="kernel\src\main.cpp" />
+    <ClCompile Include="kernel\src\Message.cpp" />
+    <ClCompile Include="kernel\src\MList.cpp" />
+    <ClCompile Include="kernel\src\Model.cpp" />
+    <ClCompile Include="kernel\src\Output.cpp" />
+    <ClCompile Include="kernel\src\Port.cpp" />
     <ClCompile Include="src\Generator.cpp" />
-    <ClCompile Include="src\List.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Message.cpp" />
-    <ClCompile Include="src\MList.cpp" />
-    <ClCompile Include="src\Model.cpp" />
-    <ClCompile Include="src\Output.cpp" />
-    <ClCompile Include="src\Port.cpp" />
     <ClCompile Include="src\Process.cpp" />
-    <ClCompile Include="src\Transd.cpp" />
+    <ClCompile Include="src\SensorProcess.cpp" />
+    <ClCompile Include="src\Transducer.cpp" />
     <ClCompile Include="src\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Atomic.hpp" />
-    <ClInclude Include="include\Coupled.hpp" />
-    <ClInclude Include="include\DEVSDEF.h" />
-    <ClInclude Include="include\Digraph.hpp" />
-    <ClInclude Include="include\Entity.hpp" />
-    <ClInclude Include="include\Entstr.hpp" />
     <ClInclude Include="include\Generator.hpp" />
-    <ClInclude Include="include\List.hpp" />
-    <ClInclude Include="include\Message.hpp" />
-    <ClInclude Include="include\MList.hpp" />
-    <ClInclude Include="include\Model.hpp" />
-    <ClInclude Include="include\Port.hpp" />
     <ClInclude Include="include\Process.hpp" />
-    <ClInclude Include="include\Tglobal.h" />
-    <ClInclude Include="include\Transd.hpp" />
+    <ClInclude Include="include\SensorProcess.hpp" />
+    <ClInclude Include="include\Transducer.hpp" />
+    <ClInclude Include="kernel\include\Atomic.hpp" />
+    <ClInclude Include="kernel\include\Coupled.hpp" />
+    <ClInclude Include="kernel\include\DEVSDEF.H" />
+    <ClInclude Include="kernel\include\Digraph.hpp" />
+    <ClInclude Include="kernel\include\Entity.hpp" />
+    <ClInclude Include="kernel\include\Entstr.hpp" />
+    <ClInclude Include="kernel\include\List.hpp" />
+    <ClInclude Include="kernel\include\Message.hpp" />
+    <ClInclude Include="kernel\include\MList.hpp" />
+    <ClInclude Include="kernel\include\Model.hpp" />
+    <ClInclude Include="kernel\include\Port.hpp" />
+    <ClInclude Include="kernel\include\Tglobal.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,8 +1,8 @@
 #ifndef __PROCESS_HPP__
 #define __PROCESS_HPP__
 
-#include "Tglobal.h"
-#include "Atomic.hpp"
+#include "../kernel/include/Tglobal.h"
+#include "../kernel/include/Atomic.hpp"
 
 class Process : public Atomic {
 public:

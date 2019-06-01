@@ -1,8 +1,8 @@
 #ifndef __GENERATOR_HPP__
 #define __GENERATOR_HPP__
 
-#include "Tglobal.h"
-#include "Atomic.hpp"
+#include "../kernel/include/Tglobal.h"
+#include "../kernel/include/Atomic.hpp"
 
 class Generator : public Atomic {
 public:

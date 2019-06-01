@@ -5,11 +5,10 @@
 #include "DEVSDEF.h"
 
 class Atomic : public Model {
-public :
+protected:
     double  Sigma;
 	double  ElapsedTime;
     std::string Phase;
-
 public:
     Atomic();
     Atomic(std::string);
