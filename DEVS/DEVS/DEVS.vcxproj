@@ -156,7 +156,6 @@
     <ClCompile Include="kernel\src\Port.cpp" />
     <ClCompile Include="src\Generator.cpp" />
     <ClCompile Include="src\Process.cpp" />
-    <ClCompile Include="src\SelfDriveProcess.cpp" />
     <ClCompile Include="src\SensorProcess.cpp" />
     <ClCompile Include="src\Transducer.cpp" />
     <ClCompile Include="src\Utility.cpp" />
@@ -164,7 +163,6 @@
   <ItemGroup>
     <ClInclude Include="include\Generator.hpp" />
     <ClInclude Include="include\Process.hpp" />
-    <ClInclude Include="include\SelfDriveProcess.hpp" />
     <ClInclude Include="include\SensorProcess.hpp" />
     <ClInclude Include="include\Transducer.hpp" />
     <ClInclude Include="jvm\JvmWrapper.hpp" />

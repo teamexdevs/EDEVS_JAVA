@@ -33,7 +33,6 @@ public:
 	void         Output(void);
 	void         Output(double);
 
-	void         MakeContent(void);
 	void         MakeContent(std::string, std::string);
 	void         InitialModel(void);
 	void         Done(Model *, double);

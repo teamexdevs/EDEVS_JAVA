@@ -1,10 +1,6 @@
 #include "JvmWrapper.hpp"
 
-#include "jni.h"
 #include <iostream>
-
-#include <direct.h>
-#include <cstdlib>
 #include <string>
 using namespace std;
 
@@ -14,22 +10,17 @@ using namespace std;
  */
 JvmWrapper::JvmWrapper() {}
 
+JvmWrapper::~JvmWrapper() {
+	if (jvm != nullptr) {
+		jvm->DestroyJavaVM();
+	}
+}
+
 void JvmWrapper::init()
 {
-	JavaVM *jvm = nullptr;
-	JNIEnv *env = nullptr;
-
-	char fullpath[128];
-	if (_fullpath(fullpath, ".\\", 128) != nullptr) {
-		cout << "Path: " << fullpath << std::endl;
-	}
-
 	JavaVMInitArgs vm_args;
 	JavaVMOption *options = new JavaVMOption[1];
 	options[0].optionString = new char[128] { "-Djava.class.path=." };
-	//strcat(options[0].optionString, fullpath);
-	//strcat(options[0].optionString, "\EDEVS");
-	std::cout << "optionString: " << options[0].optionString << std::endl;
 	vm_args.version = JNI_VERSION_1_8;
 	vm_args.nOptions = 1;
 	vm_args.options = options;
@@ -62,8 +53,12 @@ void JvmWrapper::init()
 			cout << endl;
 		}
 	}
+}
 
-	//jvm->DestroyJavaVM();
-	std::cout << "JVM has destroyed.." << std::endl;
-	//cin.get();
+void JvmWrapper::Draw() {
+
+}
+
+double JvmWrapper::GetDistance() {
+	return 0.0;
 }

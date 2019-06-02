@@ -34,13 +34,9 @@ int main()
 
 	SensorProcess *sensorProcess = new SensorProcess("SensorProcess");
 	efp->SetCurrentItem("SelfDriveProcess");
-	Display("AddItem :: SensorProcess < SelfDriveProcess\n");
 	efp->AddItem(sensorProcess);
-	Display("Couple :: SelfDriveProcess.in + SensorProcess.in\n");
 	efp->AddCouple("SelfDriveProcess", "SensorProcess", "in", "in");
-	Display("Couple :: SensorProcess.out + SelfDriveProcess.out\n");
 	efp->AddCouple("SensorProcess", "SelfDriveProcess", "out", "out");
-	Display("Current :: ef-p\n");
 	efp->SetCurrentItem("ef-p");
 	// =================================================================================
 

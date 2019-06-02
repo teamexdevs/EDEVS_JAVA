@@ -14,19 +14,19 @@ void Transducer::ExtTransitionFN(double E, DevsMessage X) {
 
 	Display(Name + "(EXT) --> :" + X.ContentPort() + ":" + JobID + " at " + std::to_string(clock));
 	NewLine();
-	 if (Phase == "active"){
-	     if (X.ContentPort() == "arriv")       {
-	         Arrive.Jobs[Arrive.Num].ID = JobID;
-		     Arrive.Jobs[Arrive.Num].Time = clock;
-		     Arrive.Num++;
-	     }
-	     else if (X.ContentPort() == "solved") {
-	         Solve.Jobs[Solve.Num].ID = JobID;
-		     Solve.Jobs[Solve.Num].Time = clock;
-		     Solve.Num++;
-	     }
-	 }
-	 Continue();
+	if (Phase == "active"){
+	    if (X.ContentPort() == "arriv")       {
+	        Arrive.Jobs[Arrive.Num].ID = JobID;
+		    Arrive.Jobs[Arrive.Num].Time = clock;
+		    Arrive.Num++;
+	    }
+	    else if (X.ContentPort() == "solved") {
+	        Solve.Jobs[Solve.Num].ID = JobID;
+		    Solve.Jobs[Solve.Num].Time = clock;
+		    Solve.Num++;
+	    }
+	}
+	Continue();
 }
 
 void Transducer::IntTransitionFN(void) {
@@ -46,7 +46,6 @@ void Transducer::OutputFN(void) {
 	 NewLine();
 	 if (Phase == "active") 
 		 MakeContent("out", "NULL");
-	 else MakeContent();
 }
 
 void Transducer::InitializeFN(void){

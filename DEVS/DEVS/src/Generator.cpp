@@ -8,7 +8,7 @@ Generator::Generator(std::string EName) : Atomic(EName) {
 	SetName(EName);
 }
 
-void Generator::ExtTransitionFN(double E, DevsMessage X){
+void Generator::ExtTransitionFN(double E, DevsMessage X) {
 	Display(Name + "(EXT) --> :" + X.ContentPort() + ": When: " + std::to_string(AddTime(GetLastEventTime(), E)));
 	if (X.ContentPort() == "stop") Passivate();
 	NewLine();
@@ -21,19 +21,19 @@ void Generator::IntTransitionFN(void) {
 	NewLine();
 }
 
-void Generator::OutputFN(void){
+void Generator::OutputFN(void) {
 	Display(Name + "(OUT) --> Phase: " + Phase.c_str() + " / Sigma: " + std::to_string(Sigma) + " / When: " + std::to_string(GetNextEventTime()));
 	NewLine();
 
 	if (Phase == "busy") {
+		// TODO: 메시지 내용
 		MakeContent("out", "Job-" + std::to_string(Count++));
 	}
-	else MakeContent();
 }
 
-void Generator::InitializeFN(void){
+void Generator::InitializeFN(void) {
 	InterArrivalTime = 3;
 	Count = 0;
 
-	HoldIn("busy",0.0);
+	HoldIn("busy", 0.0);
 }

@@ -1,5 +1,5 @@
 #include "../include/Entstr.hpp"
-#include <iostream>
+#include "../../kernel/include/Tglobal.h"
 
 EntStr::EntStr(std::string EName) : Digraph(EName) {
 	SetClassName("EntStr");
@@ -84,7 +84,7 @@ void EntStr::Initialize(void){
 }
 
 void EntStr::Restart(void) {
-	std::cout << "[" << GetClassName() << "] Restart ::" << std::endl;
+	Display("[" + GetClassName() + "] Restart!\n");
 	double Time;
 	ListElement *P;
 
@@ -103,7 +103,7 @@ void EntStr::Restart(void) {
 }
 
 void EntStr::StepStart(void) {
-	std::cout << "[" << GetClassName() << "] StepStart ::" << std::endl;
+	Display("[" + GetClassName() + "] StepStart!\n");
 	double Time, TTime;
 	ListElement *P;
 
@@ -143,6 +143,7 @@ void EntStr::InitialModel(void) {}
 
 int EntStr::OutputFN(double clk) {
 	Display("Global Clock (Root): " + std::to_string(clk));
+	NewLine();
 	NewLine();
 	return 1;
 }

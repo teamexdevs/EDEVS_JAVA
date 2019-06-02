@@ -16,6 +16,12 @@ void SensorProcess::bind(std::string instance_name) {
 void SensorProcess::ExtTransitionFN(double time, DevsMessage message) {
 	Display(Name + "(EXT) --> ");
 	if (message.ContentPort() == "in") {
+		Display("\n[=====================================================================]\n");
+		Display("[ TODO: SensorProcess received an external event and check distance.. ]\n");
+		int distpx = 31;
+		Display("[ distance: " + std::to_string(distpx) + " pixels                                     ]\n");
+		MakeContent("out", "distance-" + std::to_string(distpx));
+		Display("\\=====================================================================/\n");
 		queue.push(message.ContentValue());
 		Display(message.ContentPort() + ":" + message.ContentValue());
 		if (Phase == "busy") {
@@ -54,9 +60,6 @@ void SensorProcess::OutputFN() {
 	Display(Name + "(OUT) --> ");
 	if (Phase == "busy") {
 		MakeContent("out", job_id);
-	}
-	else {
-		MakeContent();
 	}
 	NewLine();
 }

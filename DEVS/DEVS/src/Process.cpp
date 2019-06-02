@@ -58,7 +58,6 @@ void Process::OutputFN(void) {
 	if (Phase == "busy"){ 
 		MakeContent("out", JobID);
 	}
-	else MakeContent();
 	NewLine();
 }
 
