@@ -8,7 +8,7 @@ public class Taxi extends SelfDrivingCar {
 
     @Override
     public void draw(@NotNull Graphics g) {
-        this.x += velocity;
+        tick();
         g.setColor(Color.YELLOW);
         g.fillRect(x + 40, y + 40, width + 40, height + 30);
         g.fillRect(x + 20, y + 60, width + 80, height + 20);

@@ -8,7 +8,7 @@ public class Truck extends SelfDrivingCar {
 
     @Override
     public void draw(@NotNull Graphics g) {
-        this.x += velocity;
+        tick();
         g.setColor(Color.GREEN);
         g.fillRect(x + 20, y + 190, width + 90, height + 45);
         g.fillRect(x + 120, y + 215, width + 15, height + 20);

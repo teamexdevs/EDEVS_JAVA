@@ -8,7 +8,7 @@ public class PoliceCar extends SelfDrivingCar {
 
     @Override
     public void draw(@NotNull Graphics g) {
-        this.x += velocity;
+        tick();
         g.setColor(Color.WHITE);
         g.fillRect(x + 318, y + 190, width + 45, height + 30);
         g.fillRect(x + 290, y + 215, width + 100, height + 20);

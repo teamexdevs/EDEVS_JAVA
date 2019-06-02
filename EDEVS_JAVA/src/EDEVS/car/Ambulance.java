@@ -8,7 +8,7 @@ public class Ambulance extends SelfDrivingCar {
 
     @Override
     public void draw(@NotNull Graphics g) {
-        this.x += velocity;
+        tick();
         g.setColor(Color.WHITE);
         g.fillRect(x + 20, y + 330, width + 105, height + 45);
         g.setColor(Color.LIGHT_GRAY);

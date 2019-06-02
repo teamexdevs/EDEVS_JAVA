@@ -1,6 +1,5 @@
 package EDEVS.car;
 
-
 import com.sun.istack.internal.NotNull;
 
 import java.awt.*;
@@ -28,6 +27,18 @@ public abstract class SelfDrivingCar {
         this.height = height;
         this.radius = radius;
         this.velocity = velocity;
+    }
+
+    public int getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(int velocity) {
+        this.velocity += velocity;
+    }
+
+    public void tick() {
+        x += velocity;
     }
 
     public abstract void draw(@NotNull Graphics g);

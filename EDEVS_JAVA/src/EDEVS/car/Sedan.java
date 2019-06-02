@@ -8,7 +8,7 @@ public class Sedan extends SelfDrivingCar {
 
     @Override
     public void draw(@NotNull Graphics g) {
-        this.x += velocity;
+        tick();
         g.setColor(Color.PINK);
         g.fillRect(x + 328, y + 40, width + 35, height + 30);
         g.fillRect(x + 290, y + 60, width + 110, height + 20);
