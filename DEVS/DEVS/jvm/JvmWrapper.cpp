@@ -63,6 +63,7 @@ void JvmWrapper::init()
 		}
 	}
 
-	jvm->DestroyJavaVM();
-	cin.get();
+	//jvm->DestroyJavaVM();
+	std::cout << "JVM has destroyed.." << std::endl;
+	//cin.get();
 }

@@ -7,6 +7,12 @@ SensorProcess::SensorProcess(std::string entity_name)
 	SetClassName("SensorProcess");
 }
 
+void SensorProcess::bind(std::string instance_name) {
+	/**
+	 * TODO: bind DEVS model with Java instance.
+	 */
+}
+
 void SensorProcess::ExtTransitionFN(double time, DevsMessage message) {
 	Display(Name + "(EXT) --> ");
 	if (message.ContentPort() == "in") {
