@@ -6,6 +6,8 @@
 #include "../../include/Process.hpp"
 #include "../../include/SensorProcess.hpp"
 
+//#define __JVM_GUI__
+#ifdef __JVM_GUI__
 #include "../../jvm/JvmWrapper.hpp"
 
 #include <thread>
@@ -15,22 +17,36 @@ void jvm_on_thread() {
 	JvmWrapper *jvm = new JvmWrapper();
 	jvm->init();
 }
+#endif	// __JVM_GUI__
 
 int main()
 {
 	// Jvm
-	std::thread t = std::thread(jvm_on_thread);
+	//std::thread t = std::thread(jvm_on_thread);
 	
 	// DEVS
 	Display(" ============ DEVS ================ \n");
 	EntStr *efp = new EntStr("ef-p");
 
-	SensorProcess *sensorProcess = new SensorProcess("SensorProcess");
-	efp->AddItem(sensorProcess);
-	efp->AddItem(new Digraph("ef"));
+	// =================================================================================
+	Digraph *selfDriveProcess = new Digraph("SelfDriveProcess");
+	efp->AddItem(selfDriveProcess);
 
-	efp->AddCouple("ef", "SensorProcess", "OUT", "in");
-	efp->AddCouple("SensorProcess", "ef", "out", "IN");
+	SensorProcess *sensorProcess = new SensorProcess("SensorProcess");
+	efp->SetCurrentItem("SelfDriveProcess");
+	Display("AddItem :: SensorProcess < SelfDriveProcess\n");
+	efp->AddItem(sensorProcess);
+	Display("Couple :: SelfDriveProcess.in + SensorProcess.in\n");
+	efp->AddCouple("SelfDriveProcess", "SensorProcess", "in", "in");
+	Display("Couple :: SensorProcess.out + SelfDriveProcess.out\n");
+	efp->AddCouple("SensorProcess", "SelfDriveProcess", "out", "out");
+	Display("Current :: ef-p\n");
+	efp->SetCurrentItem("ef-p");
+	// =================================================================================
+
+	efp->AddItem(new Digraph("ef"));
+	efp->AddCouple("ef", "SelfDriveProcess", "OUT", "in");
+	efp->AddCouple("SelfDriveProcess", "ef", "out", "IN");
 
 	efp->SetCurrentItem("ef");
 	efp->AddItem(new Generator("genr"));
@@ -43,7 +59,7 @@ int main()
 
 	efp->Restart();
 
-	t.join();
+	//t.join();
 
 	return 0;
 }

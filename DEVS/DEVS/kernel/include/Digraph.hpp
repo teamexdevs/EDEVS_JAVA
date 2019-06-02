@@ -13,10 +13,8 @@ public:
 	void IntTransition(double);
 	void IntTransition(void);
 	void Inject(Model *, DevsMessage,double);
-	void Output(double);
 	void Inject(DevsMessage);
     void Inject(DevsMessage,double);
-    void Output(void);
 
 	void InitialModel(void);
 	void Done(Model *, double);

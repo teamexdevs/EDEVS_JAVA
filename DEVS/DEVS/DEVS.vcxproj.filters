@@ -81,6 +81,9 @@
     <ClCompile Include="kernel\src\main.cpp">
       <Filter>소스 파일\kernel</Filter>
     </ClCompile>
+    <ClCompile Include="src\SelfDriveProcess.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Generator.hpp">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="kernel\include\Tglobal.h">
       <Filter>헤더 파일\kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SelfDriveProcess.hpp">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

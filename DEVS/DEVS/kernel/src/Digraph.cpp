@@ -54,8 +54,6 @@ void Digraph::Inject(Model *From, DevsMessage MSG, double Time){
 	 } while (true);
 }
 
-void Digraph::Output(double Time){}
-
 void Digraph::InitialModel(void){
 	 Children.AllInitial();
 	 if (Parent) Parent->DoneInit(this,GetMinTime());
@@ -82,5 +80,3 @@ void Digraph::Inject(DevsMessage MSG) {
 void Digraph::Inject(DevsMessage MSG, double T) {
 	 Inject(this,MSG,T);
 }
-
-void Digraph::Output(void) {}

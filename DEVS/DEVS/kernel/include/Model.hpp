@@ -45,8 +45,8 @@ public:
 
 	virtual void Inject(DevsMessage,double)=0;
 	virtual void Inject(DevsMessage)=0;
-	virtual void Output(void)=0;
-	virtual void Output(double)=0;
+	//virtual void Output(void)=0;
+	//virtual void Output(double)=0;
 
 	virtual void InitialModel(void)=0;
 	virtual void Done(Model *, double)=0;
