@@ -21,7 +21,7 @@ public:
 	void bind(Atomic& model);
 
 	void Draw();
-	double GetDistance();
+	int GetDistance();
 };
 
 #endif	// __JVM_WRAPPER_HPP__

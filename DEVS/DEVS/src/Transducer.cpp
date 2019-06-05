@@ -8,12 +8,12 @@ Transducer::Transducer(std::string EName) : Atomic(EName) {
 
 void Transducer::ExtTransitionFN(double E, DevsMessage X) {
 	JobID = X.ContentValue();
-	Display("JobID: " + JobID);
-	NewLine();
+	Log("JobID: " + JobID);
+	NextLine();
 	clock += E;
 
-	Display(Name + "(EXT) --> :" + X.ContentPort() + ":" + JobID + " at " + std::to_string(clock));
-	NewLine();
+	Log(Name + "(EXT) --> :" + X.ContentPort() + ":" + JobID + " at " + std::to_string(clock));
+	NextLine();
 	if (Phase == "active"){
 	    if (X.ContentPort() == "arriv")       {
 	        Arrive.Jobs[Arrive.Num].ID = JobID;
@@ -30,50 +30,50 @@ void Transducer::ExtTransitionFN(double E, DevsMessage X) {
 }
 
 void Transducer::IntTransitionFN(void) {
-	 Display(Name + "(INT) --> ");
-	 NewLine();
+	Log(Name + "(INT) --> ");
+	NextLine();
 
-	 if (Phase == "active") {
-	     PrintArrive();
-		 PrintSolve();
-		 Passivate();
-	 }
-	 else Continue();
+	if (Phase == "active") {
+	    PrintArrive();
+		PrintSolve();
+		Passivate();
+	}
+	else Continue();
 }
 
 void Transducer::OutputFN(void) {
-	 Display(Name + "(OUT) --> ");
-	 NewLine();
-	 if (Phase == "active") 
-		 MakeContent("out", "NULL");
+	Log(Name + "(OUT) --> ");
+	NextLine();
+	if (Phase == "active") 
+		MakeContent("out", "NULL");
 }
 
 void Transducer::InitializeFN(void){
-	  clock = (double)0.0;
+	clock = (double) 0.0;
 
-	  Arrive.Num = 0;
-	  Solve.Num = 0;
+	Arrive.Num = 0;
+	Solve.Num = 0;
 
-	  HoldIn("active",(double)100.0);
+	HoldIn("active", (double) 100.0);
 }
 
 
 void Transducer::PrintArrive(void){
-	 NewLine();
-     Display("   ---------------------< Arrived Jobs >---------------------");
-	 NewLine();
-	 for (int i = 0; i < Arrive.Num; i++) {
-	     Display("(" + Arrive.Jobs[i].ID + "," + std::to_string(Arrive.Jobs[i].Time) + ") ");
-	 }
-	 NewLine();
+	NextLine();
+	Log("   ---------------------< Arrived Jobs >---------------------");
+	NextLine();
+	for (int i = 0; i < Arrive.Num; i++) {
+		Log("(" + Arrive.Jobs[i].ID + "," + std::to_string(Arrive.Jobs[i].Time) + ") ");
+	}
+	NextLine();
 }
 
 void Transducer::PrintSolve(void){
-	 NewLine();
-     Display("   ---------------------< Solved Jobs >---------------------");
-	 NewLine();
-	 for (int i = 0; i < Solve.Num; i++) {
-	     Display("(" + Solve.Jobs[i].ID + "," + std::to_string(Solve.Jobs[i].Time) + ") ");
-	 }
-	 NewLine();
+	NextLine();
+	Log("   ---------------------< Solved Jobs >---------------------");
+	NextLine();
+	for (int i = 0; i < Solve.Num; i++) {
+		Log("(" + Solve.Jobs[i].ID + "," + std::to_string(Solve.Jobs[i].Time) + ") ");
+	}
+	NextLine();
 }

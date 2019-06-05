@@ -84,7 +84,7 @@ void EntStr::Initialize(void){
 }
 
 void EntStr::Restart(void) {
-	Display("[" + GetClassName() + "] Restart!\n");
+	Log("[" + GetClassName() + "] Restart!\n");
 	double Time;
 	ListElement *P;
 
@@ -103,7 +103,7 @@ void EntStr::Restart(void) {
 }
 
 void EntStr::StepStart(void) {
-	Display("[" + GetClassName() + "] StepStart!\n");
+	Log("[" + GetClassName() + "] StepStart!\n");
 	double Time, TTime;
 	ListElement *P;
 
@@ -121,7 +121,7 @@ void EntStr::StepStart(void) {
 		P->Model->IntTransition(Time);
 	} while (true);
 
-	Display("One step ended..."); 
+	Log("One step ended...");
 	OutputFN(TTime);
 }
 
@@ -142,7 +142,6 @@ void EntStr::Output(void) {}
 void EntStr::InitialModel(void) {}
 
 void EntStr::OutputFN(double clk) {
-	Display("Global Clock (Root): " + std::to_string(clk));
-	NewLine();
-	NewLine();
+	Log("Global Clock (Root): " + std::to_string(clk));
+	NextLine(2);
 }

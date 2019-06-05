@@ -78,13 +78,13 @@
     <ClCompile Include="kernel\src\Port.cpp">
       <Filter>소스 파일\kernel</Filter>
     </ClCompile>
-    <ClCompile Include="kernel\src\main.cpp">
-      <Filter>소스 파일\kernel</Filter>
-    </ClCompile>
     <ClCompile Include="src\DecisionMakingProcess.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\ActuatorProcess.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -148,7 +148,6 @@
     <ClCompile Include="kernel\src\Entity.cpp" />
     <ClCompile Include="kernel\src\Entstr.cpp" />
     <ClCompile Include="kernel\src\List.cpp" />
-    <ClCompile Include="kernel\src\main.cpp" />
     <ClCompile Include="kernel\src\Message.cpp" />
     <ClCompile Include="kernel\src\MList.cpp" />
     <ClCompile Include="kernel\src\Model.cpp" />
@@ -157,6 +156,7 @@
     <ClCompile Include="src\ActuatorProcess.cpp" />
     <ClCompile Include="src\DecisionMakingProcess.cpp" />
     <ClCompile Include="src\Generator.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Process.cpp" />
     <ClCompile Include="src\SensorProcess.cpp" />
     <ClCompile Include="src\Transducer.cpp" />

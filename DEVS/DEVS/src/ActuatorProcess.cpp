@@ -14,30 +14,33 @@ void ActuatorProcess::InitializeFN() {
 }
 
 void ActuatorProcess::ExtTransitionFN(double time, DevsMessage message) {
-	Display(Name + "(EXT) --> ");
-	if (message.ContentPort() == "in") {
+	Log(Name + "(EXT) --> ");
+	if (message.ContentPort() == "accel" || message.ContentPort() == "slowdown" || message.ContentPort() == "maintain") {
 		queue.push(message.ContentValue());
-		Display(message.ContentPort() + ":" + message.ContentValue());
-		if (Phase == "busy") {
+		Log(message.ContentPort() + ":" + message.ContentValue());
+		if (Phase == message.ContentPort()) {
 			Continue();
 		}
 		else if (queue.front() != queue.back()) {
-			HoldIn("busy", 0.0);
+			HoldIn(message.ContentPort(), 0.0);
 		}
+	}
+	else if (message.ContentPort() == "crossed") {
+		HoldIn("crossed", 0.0);
 	}
 	else {
 		Continue();
 	}
-	NewLine();
+	NextLine();
 }
 
 void ActuatorProcess::IntTransitionFN() {
-	Display(Name + "(INT) --> ");
-	if (Phase == "busy") {
+	Log(Name + "(INT) --> ");
+	if (Phase == "accel") {
 		if (!queue.empty()) {
 			job_id = queue.front();
-			SetColor(COLOR_RED);
-			Display(" process: " + job_id);
+			SetColor(COLOR_LIGHT_RED);
+			Log(" process: " + job_id);
 			SetColor(COLOR_DEFAULT);
 			HoldIn("busy", processing_time);
 			queue.pop();
@@ -46,16 +49,51 @@ void ActuatorProcess::IntTransitionFN() {
 			Passivate();
 		}
 	}
+	else if (Phase == "slowdown") {
+		if (!queue.empty()) {
+			job_id = queue.front();
+			SetColor(COLOR_LIGHT_BLUE);
+			Log(" process: " + job_id);
+			SetColor(COLOR_DEFAULT);
+			HoldIn("busy", processing_time);
+			queue.pop();
+		}
+		else {
+			Passivate();
+		}
+	}
+	else if (Phase == "maintain") {
+		if (!queue.empty()) {
+			job_id = queue.front();
+			SetColor(COLOR_LIGHT_GREEN);
+			Log(" process: " + job_id);
+			SetColor(COLOR_DEFAULT);
+			HoldIn("busy", processing_time);
+			queue.pop();
+		}
+		else {
+			Passivate();
+		}
+	}
+	else if (Phase == "crossed") {
+		Passivate();
+	}
+	else if (Phase == "busy") {
+		Passivate();
+	}
 	else {
 		Continue();
 	}
-	NewLine();
+	NextLine();
 }
 
 void ActuatorProcess::OutputFN() {
-	Display(Name + "(OUT) --> ");
-	if (Phase == "busy") {
+	Log(Name + "(OUT) --> ");
+	if (Phase == "accel" || Phase == "slowdown" || Phase == "maintain") {
 		MakeContent("out", job_id);
 	}
-	NewLine();
+	else if (Phase == "crossed") {
+		Passivate();
+	}
+	NextLine();
 }

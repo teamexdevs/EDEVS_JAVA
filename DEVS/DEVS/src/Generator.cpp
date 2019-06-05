@@ -9,21 +9,21 @@ Generator::Generator(std::string EName) : Atomic(EName) {
 }
 
 void Generator::ExtTransitionFN(double E, DevsMessage X) {
-	Display(Name + "(EXT) --> :" + X.ContentPort() + ": When: " + std::to_string(AddTime(GetLastEventTime(), E)));
+	Log(Name + "(EXT) --> :" + X.ContentPort() + ": When: " + std::to_string(AddTime(GetLastEventTime(), E)));
 	if (X.ContentPort() == "stop") Passivate();
-	NewLine();
+	NextLine();
 }
 
 void Generator::IntTransitionFN(void) {
-	Display(Name + "(INT) --> Sigma: " + std::to_string(Sigma) + " / When: " + std::to_string(AddTime(GetLastEventTime(), Sigma)));
+	Log(Name + "(INT) --> Sigma: " + std::to_string(Sigma) + " / When: " + std::to_string(AddTime(GetLastEventTime(), Sigma)));
 	if (Phase == "busy") { HoldIn("busy", InterArrivalTime); }
 	else { Passivate(); }
-	NewLine();
+	NextLine();
 }
 
 void Generator::OutputFN(void) {
-	Display(Name + "(OUT) --> Phase: " + Phase.c_str() + " / Sigma: " + std::to_string(Sigma) + " / When: " + std::to_string(GetNextEventTime()));
-	NewLine();
+	Log(Name + "(OUT) --> Phase: " + Phase.c_str() + " / Sigma: " + std::to_string(Sigma) + " / When: " + std::to_string(GetNextEventTime()));
+	NextLine();
 
 	if (Phase == "busy") {
 		// TODO: 메시지 내용

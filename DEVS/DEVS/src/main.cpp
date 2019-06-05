@@ -1,13 +1,13 @@
-#include "../include/Tglobal.h"
-#include "../include/Entstr.hpp"
+#include "../kernel/include/Tglobal.h"
+#include "../kernel/include/Entstr.hpp"
 
-#include "../../include/Generator.hpp"
-#include "../../include/Transducer.hpp"
-#include "../../include/SensorProcess.hpp"
-#include "../../include/DecisionMakingProcess.hpp"
-#include "../../include/ActuatorProcess.hpp"
+#include "../include/Generator.hpp"
+#include "../include/Transducer.hpp"
+#include "../include/SensorProcess.hpp"
+#include "../include/DecisionMakingProcess.hpp"
+#include "../include/ActuatorProcess.hpp"
 
-#include "../../jvm/JvmWrapper.hpp"
+#include "../jvm/JvmWrapper.hpp"
 
 #include <thread>
 
@@ -16,10 +16,10 @@ void init_jvm();
 int main()
 {
 	// Jvm
-	std::thread t = std::thread(init_jvm);
+	//std::thread t = std::thread(init_jvm);
 
 	// DEVS
-	Display(" ============ DEVS ================ \n");
+	Log(" ============ DEVS ================ \n");
 	EntStr *efp = new EntStr("ef-p");
 
 	// =================================================================================
@@ -37,7 +37,10 @@ int main()
 
 	ActuatorProcess *actuatorProcess = new ActuatorProcess("ActuatorProcess");
 	efp->AddItem(actuatorProcess);
-	efp->AddCouple("DecisionMakingProcess", "ActuatorProcess", "out", "in");
+	efp->AddCouple("DecisionMakingProcess", "ActuatorProcess", "accel", "accel");
+	efp->AddCouple("DecisionMakingProcess", "ActuatorProcess", "slowdown", "slowdown");
+	efp->AddCouple("DecisionMakingProcess", "ActuatorProcess", "maintain", "maintain");
+	efp->AddCouple("SensorProcess", "ActuatorProcess", "crossed", "crossed");
 	efp->AddCouple("ActuatorProcess", "SelfDriveProcess", "out", "out");
 
 	efp->SetCurrentItem("ef-p");
@@ -58,13 +61,13 @@ int main()
 
 	efp->Restart();
 
-	t.join();
+	//t.join();
 
 	return 0;
 }
 
 void init_jvm() {
-	Display(" ============ JVM ================ \n");
+	Log(" ============ JVM ================ \n");
 	static JvmWrapper& jvm = JvmWrapper::instance();
 	jvm.init();
 }

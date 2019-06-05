@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <string>
+#include <cmath>
+#include <ctime>
 using namespace std;
 
 /**
@@ -16,7 +18,9 @@ using namespace std;
 #elif defined(__QNX__)
 #endif
 
-JvmWrapper::JvmWrapper() {}
+JvmWrapper::JvmWrapper() {
+	srand((unsigned int) time(nullptr));
+}
 
 JvmWrapper::~JvmWrapper() {
 	if (jvm != nullptr) {
@@ -89,6 +93,6 @@ void JvmWrapper::Draw() {
 
 }
 
-double JvmWrapper::GetDistance() {
-	return 0.0;
+int JvmWrapper::GetDistance() {
+	return rand() & 100;
 }

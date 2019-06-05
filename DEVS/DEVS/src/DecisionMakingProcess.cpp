@@ -1,6 +1,8 @@
 #include "../include/DecisionMakingProcess.hpp"
 #include "../kernel/include/Tglobal.h"
 
+#include <cmath>
+
 DecisionMakingProcess::DecisionMakingProcess(std::string entity_name)
 	: Atomic(entity_name)
 {
@@ -14,10 +16,10 @@ void DecisionMakingProcess::InitializeFN() {
 }
 
 void DecisionMakingProcess::ExtTransitionFN(double time, DevsMessage message) {
-	Display(Name + "(EXT) --> ");
+	Log(Name + "(EXT) --> ");
 	if (message.ContentPort() == "in") {
 		queue.push(message.ContentValue());
-		Display(message.ContentPort() + ":" + message.ContentValue());
+		Log(message.ContentPort() + ":" + message.ContentValue());
 		if (Phase == "busy") {
 			Continue();
 		}
@@ -28,15 +30,15 @@ void DecisionMakingProcess::ExtTransitionFN(double time, DevsMessage message) {
 	else {
 		Continue();
 	}
-	NewLine();
+	NextLine(2);
 }
 
 void DecisionMakingProcess::IntTransitionFN() {
-	Display(Name + "(INT) --> ");
+	Log(Name + "(INT) --> ");
 	if (Phase == "busy") {
 		if (!queue.empty()) {
 			job_id = queue.front();
-			Display(" process: " + job_id);
+			Log(" process: " + job_id);
 			HoldIn("busy", processing_time);
 			queue.pop();
 		}
@@ -47,13 +49,23 @@ void DecisionMakingProcess::IntTransitionFN() {
 	else {
 		Continue();
 	}
-	NewLine();
+	NextLine();
 }
 
 void DecisionMakingProcess::OutputFN() {
-	Display(Name + "(OUT) --> ");
+	Log(Name + "(OUT) --> ");
 	if (Phase == "busy") {
-		MakeContent("out", job_id);
+		switch (rand() % 3) {
+		case 0:
+			MakeContent("accel", job_id);
+			break;
+		case 1:
+			MakeContent("slowdown", job_id);
+			break;
+		case 2:
+			MakeContent("maintain", job_id);
+			break;
+		}
 	}
-	NewLine();
+	NextLine();
 }

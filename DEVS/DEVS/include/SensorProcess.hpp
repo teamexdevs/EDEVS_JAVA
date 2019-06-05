@@ -12,8 +12,6 @@ private:
 public:
 	SensorProcess(std::string entity_name);
 
-	void bind(std::string instance_name);
-
 	void InitializeFN(void);
 	void ExtTransitionFN(double, DevsMessage);
 	void IntTransitionFN(void);
