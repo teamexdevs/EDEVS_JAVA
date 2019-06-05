@@ -28,7 +28,7 @@ public:
    void Initialize(void);
    void Restart(void);
    void StepStart(void);
-   int  OutputFN(double);
+   void OutputFN(double);
 
    void IntTransition(double );
    void Inject(std::string, std::string);

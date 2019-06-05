@@ -1,10 +1,20 @@
 #include "../include/SensorProcess.hpp"
 #include "../kernel/include/Tglobal.h"
 
+#include <cmath>
+#include <ctime>
+
 SensorProcess::SensorProcess(std::string entity_name)
 	: Atomic(entity_name)
 {
 	SetClassName("SensorProcess");
+}
+
+void SensorProcess::InitializeFN() {
+	srand((unsigned int) time(NULL));
+	processing_time = 1.0;
+	Passivate();
+	ClearMessageQueue(queue);
 }
 
 void SensorProcess::bind(std::string instance_name) {
@@ -16,12 +26,6 @@ void SensorProcess::bind(std::string instance_name) {
 void SensorProcess::ExtTransitionFN(double time, DevsMessage message) {
 	Display(Name + "(EXT) --> ");
 	if (message.ContentPort() == "in") {
-		Display("\n[=====================================================================]\n");
-		Display("[ TODO: SensorProcess received an external event and check distance.. ]\n");
-		int distpx = 31;
-		Display("[ distance: " + std::to_string(distpx) + " pixels                                     ]\n");
-		MakeContent("out", "distance-" + std::to_string(distpx));
-		Display("\\=====================================================================/\n");
 		queue.push(message.ContentValue());
 		Display(message.ContentPort() + ":" + message.ContentValue());
 		if (Phase == "busy") {
@@ -44,6 +48,17 @@ void SensorProcess::IntTransitionFN() {
 			job_id = queue.front();
 			Display(" process: " + job_id);
 			HoldIn("busy", processing_time);
+			/**
+			 * TODO [0]: 주행이 완료되었는지 확인한다.
+			 */
+			/**
+			 * TODO [1]: Java-binded Car 객체로부터 앞차와의 거리값을 읽어온다.
+			 */
+			int distance_in_pixel = rand() % 100;
+			Display(" (distance: " + std::to_string(distance_in_pixel) + " meters) ");
+			/**
+			 * TODO [2]: 현재 속력을 고려했을 때 일정 거리 이하일 경우 대처를 취한다.
+			 */
 			queue.pop();
 		}
 		else {
@@ -62,10 +77,4 @@ void SensorProcess::OutputFN() {
 		MakeContent("out", job_id);
 	}
 	NewLine();
-}
-
-void SensorProcess::InitializeFN() {
-	processing_time = 7.0;
-	Passivate();
-	ClearMessageQueue(queue);
 }

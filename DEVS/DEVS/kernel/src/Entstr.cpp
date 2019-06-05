@@ -141,9 +141,8 @@ void EntStr::Output(double T) {}
 void EntStr::Output(void) {}
 void EntStr::InitialModel(void) {}
 
-int EntStr::OutputFN(double clk) {
+void EntStr::OutputFN(double clk) {
 	Display("Global Clock (Root): " + std::to_string(clk));
 	NewLine();
 	NewLine();
-	return 1;
 }

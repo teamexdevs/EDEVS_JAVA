@@ -154,6 +154,8 @@
     <ClCompile Include="kernel\src\Model.cpp" />
     <ClCompile Include="kernel\src\Output.cpp" />
     <ClCompile Include="kernel\src\Port.cpp" />
+    <ClCompile Include="src\ActuatorProcess.cpp" />
+    <ClCompile Include="src\DecisionMakingProcess.cpp" />
     <ClCompile Include="src\Generator.cpp" />
     <ClCompile Include="src\Process.cpp" />
     <ClCompile Include="src\SensorProcess.cpp" />
@@ -161,6 +163,8 @@
     <ClCompile Include="src\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\ActuatorProcess.hpp" />
+    <ClInclude Include="include\DecisionMakingProcess.hpp" />
     <ClInclude Include="include\Generator.hpp" />
     <ClInclude Include="include\Process.hpp" />
     <ClInclude Include="include\SensorProcess.hpp" />

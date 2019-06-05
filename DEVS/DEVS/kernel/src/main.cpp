@@ -3,27 +3,21 @@
 
 #include "../../include/Generator.hpp"
 #include "../../include/Transducer.hpp"
-#include "../../include/Process.hpp"
 #include "../../include/SensorProcess.hpp"
+#include "../../include/DecisionMakingProcess.hpp"
+#include "../../include/ActuatorProcess.hpp"
 
-//#define __JVM_GUI__
-#ifdef __JVM_GUI__
 #include "../../jvm/JvmWrapper.hpp"
 
 #include <thread>
 
-void jvm_on_thread() {
-	Display(" ============ JVM ================ \n");
-	JvmWrapper *jvm = new JvmWrapper();
-	jvm->init();
-}
-#endif	// __JVM_GUI__
+void init_jvm();
 
 int main()
 {
 	// Jvm
-	//std::thread t = std::thread(jvm_on_thread);
-	
+	std::thread t = std::thread(init_jvm);
+
 	// DEVS
 	Display(" ============ DEVS ================ \n");
 	EntStr *efp = new EntStr("ef-p");
@@ -31,12 +25,21 @@ int main()
 	// =================================================================================
 	Digraph *selfDriveProcess = new Digraph("SelfDriveProcess");
 	efp->AddItem(selfDriveProcess);
+	efp->SetCurrentItem("SelfDriveProcess");
 
 	SensorProcess *sensorProcess = new SensorProcess("SensorProcess");
-	efp->SetCurrentItem("SelfDriveProcess");
 	efp->AddItem(sensorProcess);
 	efp->AddCouple("SelfDriveProcess", "SensorProcess", "in", "in");
-	efp->AddCouple("SensorProcess", "SelfDriveProcess", "out", "out");
+
+	DecisionMakingProcess *decisionMakingProcess = new DecisionMakingProcess("DecisionMakingProcess");
+	efp->AddItem(decisionMakingProcess);
+	efp->AddCouple("SensorProcess", "DecisionMakingProcess", "out", "in");
+
+	ActuatorProcess *actuatorProcess = new ActuatorProcess("ActuatorProcess");
+	efp->AddItem(actuatorProcess);
+	efp->AddCouple("DecisionMakingProcess", "ActuatorProcess", "out", "in");
+	efp->AddCouple("ActuatorProcess", "SelfDriveProcess", "out", "out");
+
 	efp->SetCurrentItem("ef-p");
 	// =================================================================================
 
@@ -55,7 +58,13 @@ int main()
 
 	efp->Restart();
 
-	//t.join();
+	t.join();
 
 	return 0;
+}
+
+void init_jvm() {
+	Display(" ============ JVM ================ \n");
+	static JvmWrapper& jvm = JvmWrapper::instance();
+	jvm.init();
 }

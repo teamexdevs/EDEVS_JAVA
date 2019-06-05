@@ -4,6 +4,7 @@
 #include "Entity.hpp"
 #include "Port.hpp"
 #include "Message.hpp"
+#include <string>
 
 class Model : public Entity {
 public:
@@ -16,7 +17,8 @@ public:
 
 	DevsMessage InMessage,
 	            OutMessage;
-
+protected:
+	// TODO: States
 public:
     Model();
 	Model(std::string);

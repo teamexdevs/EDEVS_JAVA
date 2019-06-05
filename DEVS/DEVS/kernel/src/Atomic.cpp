@@ -8,7 +8,7 @@ Atomic::Atomic() : Model() {
 	Passivate(); 
 }
 
-Atomic::Atomic(std::string EName) : Model(EName) { 
+Atomic::Atomic(std::string entity_name) : Model(entity_name) { 
 	SetClassName("Atomic");
 	ElapsedTime = (double)0.0;
 	SetLastEventTime((double)0.0);

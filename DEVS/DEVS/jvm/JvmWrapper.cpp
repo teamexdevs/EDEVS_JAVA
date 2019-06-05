@@ -8,6 +8,14 @@ using namespace std;
  * Calling Java from C++ with JNI: https://www.codeproject.com/Articles/993067/Calling-Java-from-Cplusplus-with-JNI
  * JNI Method Signature : https://codepedia.tistory.com/entry/JNI-Method-signature
  */
+
+#if defined(_WIN32)
+#elif defined(__linux__)
+#elif defined(__APPLE__)
+#elif defined(BSD)
+#elif defined(__QNX__)
+#endif
+
 JvmWrapper::JvmWrapper() {}
 
 JvmWrapper::~JvmWrapper() {
@@ -40,19 +48,41 @@ void JvmWrapper::init()
 	jclass jclass = env->FindClass("ExplainableDEVS");
 	if (jclass == nullptr) {
 		cerr << "ERROR: class not found!" << endl;
+		return;
 	}
-	else {
-		cout << "Class found!" << endl;
-		jmethodID mid = env->GetStaticMethodID(jclass, "execute", "()V");
-		//jmethodID mid = env->GetStaticMethodID(jclass, "main", "([Ljava/lang/String)V");
-		if (mid == nullptr) {
-			cerr << "ERROR: method void main() not found!" << endl;
-		}
-		else {
-			env->CallStaticVoidMethod(jclass, mid);
-			cout << endl;
-		}
+	cout << "Class found!" << endl;
+	jmethodID mid = env->GetStaticMethodID(jclass, "execute", "()V");
+	if (mid == nullptr) {
+		cerr << "ERROR: method void execute() not found!" << endl;
+		return;
 	}
+	env->CallStaticVoidMethod(jclass, mid);
+	cout << endl;
+	// TODO: onload..
+
+	mid = env->GetStaticMethodID(jclass, "tick", "()V");
+	if (mid == nullptr) {
+		cerr << "ERROR: method void tick() not found!" << endl;
+		return;
+	}
+	for (int i = 0; i < 5; ++i) {
+		env->CallStaticVoidMethod(jclass, mid);
+		cout << "tick" << endl;
+	}
+
+	mid = env->GetStaticMethodID(jclass, "close", "()V");
+	if (mid == nullptr) {
+		cerr << "ERROR: method void close() not found!" << endl;
+		return;
+	}
+	cout << "close" << endl;
+	env->CallStaticVoidMethod(jclass, mid);
+}
+
+void JvmWrapper::bind(Atomic& model) {
+	jclass edevs = env->FindClass("ExplainableDEVS");
+	jmethodID mid = env->GetMethodID(edevs, "getCar", "()V");
+	jobject car = env->CallObjectMethod(edevs, mid);
 }
 
 void JvmWrapper::Draw() {

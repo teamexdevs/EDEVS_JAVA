@@ -2,15 +2,23 @@
 #define __JVM_WRAPPER_HPP__
 
 #include "jni.h"
+#include "../kernel/include/Atomic.hpp"
 
 class JvmWrapper {
 private:
 	JavaVM *jvm = nullptr;
 	JNIEnv *env = nullptr;
-public:
+
 	JvmWrapper();
 	~JvmWrapper();
+public:
+	static JvmWrapper& instance() {
+		static JvmWrapper* instance = new JvmWrapper();
+		return *instance;
+	}
+
 	void init();
+	void bind(Atomic& model);
 
 	void Draw();
 	double GetDistance();

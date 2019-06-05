@@ -12,6 +12,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class ExplainableDEVS extends JPanel {
+
+	private static ExplainableDEVS explainableDEVS;
+
 	private Taxi taxi;
 	private Truck truck;
 	private Ambulance ambulance;
@@ -21,6 +24,8 @@ public class ExplainableDEVS extends JPanel {
 		setBackground(Color.lightGray);
 		taxi = new Taxi();
 		truck = new Truck();
+		ambulance = new Ambulance();
+		sedan = new Sedan();
 	}
 
 	public void paintComponent(Graphics g) {
@@ -38,21 +43,8 @@ public class ExplainableDEVS extends JPanel {
 
 		taxi.draw(g);
 		truck.draw(g);
-	}
-
-	public void start() {
-		while (true) {
-			//0.5�ʸ���
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			// repaint
-			repaint();
-     		//System.out.println("moved");
-		}
+		ambulance.draw(g);
+		sedan.draw(g);
 	}
 
 	public static void main(String[] args) {
@@ -61,12 +53,24 @@ public class ExplainableDEVS extends JPanel {
 
 	public static void execute() {
 		JFrame frame = new JFrame();
-		ExplainableDEVS Sdc = new ExplainableDEVS();
-		frame.add(Sdc);
+		explainableDEVS = new ExplainableDEVS();
+		frame.add(explainableDEVS);
 		frame.setTitle("E-DEVS SDC Simulation");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1500, 500);
 		frame.setVisible(true);
-		Sdc.start();
+	}
+
+	public static void tick() {
+		explainableDEVS.repaint();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void close() {
+		System.exit(0);
 	}
 }
