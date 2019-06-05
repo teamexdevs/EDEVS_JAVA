@@ -17,6 +17,14 @@ void Display(float val);
 void NewLine(void);
 
 /**
+ * Colors
+ */
+const int COLOR_DEFAULT = 7;
+const int COLOR_RED = 12;
+
+void SetColor(int color);
+
+/**
  * Utility..
  */
 void ClearMessageQueue(std::queue<std::string> &messageQueue);

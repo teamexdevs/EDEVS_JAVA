@@ -2,12 +2,12 @@
 #include <string>
 #include <iostream>
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
 void Display(std::string str) {
 	std::cout << str;
-}
-
-void NewLine(void) {
-	std::cout << std::endl;
 }
 
 void Display(long val) {
@@ -24,4 +24,15 @@ void Display(int val) {
 
 void Display(float val){
 	std::cout << val;
+}
+
+void NewLine(void) {
+	std::cout << std::endl;
+}
+
+void SetColor(int color) {
+#ifdef _WIN32
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, color);
+#endif
 }
