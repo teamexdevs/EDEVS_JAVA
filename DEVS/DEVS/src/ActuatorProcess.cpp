@@ -1,6 +1,8 @@
 #include "../include/ActuatorProcess.hpp"
 #include "../kernel/include/Tglobal.h"
 
+#include "../jvm/JvmWrapper.hpp"
+
 ActuatorProcess::ActuatorProcess(std::string entity_name)
 	: Atomic(entity_name)
 {
@@ -37,6 +39,10 @@ void ActuatorProcess::ExtTransitionFN(double time, DevsMessage message) {
 void ActuatorProcess::IntTransitionFN() {
 	Log(Name + "(INT) --> ");
 	if (Phase == "accel") {
+		/**
+		 * TODO
+		 */
+		JvmWrapper::instance().Accelerate(0);
 		if (!queue.empty()) {
 			job_id = queue.front();
 			SetColor(COLOR_LIGHT_RED);

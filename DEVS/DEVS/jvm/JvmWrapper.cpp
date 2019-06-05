@@ -28,7 +28,7 @@ JvmWrapper::~JvmWrapper() {
 	}
 }
 
-void JvmWrapper::init()
+bool JvmWrapper::init()
 {
 	JavaVMInitArgs vm_args;
 	JavaVMOption *options = new JavaVMOption[1];
@@ -49,38 +49,36 @@ void JvmWrapper::init()
 	jint ver = env->GetVersion();
 	cout << ((ver >> 16) & 0x0F) << "." << (ver & 0x0F) << endl;
 
-	jclass jclass = env->FindClass("ExplainableDEVS");
-	if (jclass == nullptr) {
+	explainableDEVS = env->FindClass("ExplainableDEVS");
+	if (explainableDEVS == nullptr) {
 		cerr << "ERROR: class not found!" << endl;
-		return;
+		return false;
 	}
 	cout << "Class found!" << endl;
-	jmethodID mid = env->GetStaticMethodID(jclass, "execute", "()V");
+	jmethodID mid = env->GetStaticMethodID(explainableDEVS, "execute", "()V");
 	if (mid == nullptr) {
 		cerr << "ERROR: method void execute() not found!" << endl;
-		return;
+		return false;
 	}
-	env->CallStaticVoidMethod(jclass, mid);
+	env->CallStaticVoidMethod(explainableDEVS, mid);
 	cout << endl;
 	// TODO: onload..
 
-	mid = env->GetStaticMethodID(jclass, "tick", "()V");
-	if (mid == nullptr) {
+	mid_tick = env->GetStaticMethodID(explainableDEVS, "tick", "()V");
+	if (mid_tick == nullptr) {
 		cerr << "ERROR: method void tick() not found!" << endl;
-		return;
-	}
-	for (int i = 0; i < 5; ++i) {
-		env->CallStaticVoidMethod(jclass, mid);
-		cout << "tick" << endl;
+		return false;
 	}
 
-	mid = env->GetStaticMethodID(jclass, "close", "()V");
+	mid = env->GetStaticMethodID(explainableDEVS, "close", "()V");
 	if (mid == nullptr) {
 		cerr << "ERROR: method void close() not found!" << endl;
-		return;
+		return false;
 	}
 	cout << "close" << endl;
-	env->CallStaticVoidMethod(jclass, mid);
+	env->CallStaticVoidMethod(explainableDEVS, mid);
+
+	return true;
 }
 
 void JvmWrapper::bind(Atomic& model) {
@@ -89,10 +87,31 @@ void JvmWrapper::bind(Atomic& model) {
 	jobject car = env->CallObjectMethod(edevs, mid);
 }
 
+void JvmWrapper::tick() {
+	if (mid_tick == nullptr || env == nullptr) return;
+	env->CallStaticVoidMethod(explainableDEVS, mid_tick);
+}
+
 void JvmWrapper::Draw() {
 
 }
 
 int JvmWrapper::GetDistance() {
-	return rand() & 100;
+	return rand() % 100;
+}
+
+int JvmWrapper::GetVelocity() {
+	//return env->CallIntMethod(...);
+	return rand() % 10;
+}
+void JvmWrapper::Accelerate(int speed) {
+	//env->CallVoidMethod();
+}
+
+void JvmWrapper::Slowdown() {
+
+}
+
+void JvmWrapper::Maintain() {
+
 }

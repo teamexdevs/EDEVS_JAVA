@@ -1,6 +1,10 @@
 #include "../include/Entstr.hpp"
 #include "../../kernel/include/Tglobal.h"
 
+#ifdef _WIN32
+#include "../../jvm/JvmWrapper.hpp"
+#endif
+
 EntStr::EntStr(std::string EName) : Digraph(EName) {
 	SetClassName("EntStr");
 	SetName(EName);
@@ -120,6 +124,10 @@ void EntStr::StepStart(void) {
 		if (P == nullptr) break;
 		P->Model->IntTransition(Time);
 	} while (true);
+
+#ifdef _WIN32
+	//JvmWrapper::instance().tick();
+#endif
 
 	Log("One step ended...");
 	OutputFN(TTime);

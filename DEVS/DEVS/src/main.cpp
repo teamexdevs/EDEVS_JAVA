@@ -17,6 +17,7 @@ int main()
 {
 	// Jvm
 	//std::thread t = std::thread(init_jvm);
+	//init_jvm();
 
 	// DEVS
 	Log(" ============ DEVS ================ \n");
