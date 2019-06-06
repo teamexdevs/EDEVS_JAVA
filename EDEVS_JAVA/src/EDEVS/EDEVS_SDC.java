@@ -141,6 +141,7 @@ class MySDC {
 		g.fillRect(getX() + 68, y + 50, Width + 5, Height + 5);
 		g.setColor(Color.ORANGE);
 		g.fillRect(getX() + 60, y + 30, Width, Height);
+		g.drawOval(getX()+10, y+20, Width+100, Height+100);
 	}
 
 	public int getX() {
@@ -194,6 +195,7 @@ class MySDC2 {
 		g.fillRect(x + 95, y + 200, Width + 5, Height + 5);
 		g.setColor(Color.GRAY);
 		g.fillRect(x + 20, y + 180, Width + 55, Height + 35);
+		g.drawOval(getX()+10, y+150, Width+130, Height+120);
 	}
 
 	public int getX() {
@@ -252,6 +254,7 @@ class MySDC3 {
 		g.setColor(Color.GREEN);
 		g.fillRect(x + 50, y + 348, Width + 15, Height);
 		g.fillRect(x + 58, y + 340, Width, Height + 15);
+		g.drawOval(getX()+10, y+300, Width+130, Height+120);
 	}
 
 	public int getX() {
@@ -307,6 +310,7 @@ class MySDC4 {
 		g.setColor(Color.WHITE);
 		g.fillArc(x + 390, y + 70, Width, Height, 0, 90);
 		g.fillArc(x + 390, y + 70, Width, Height, 180, 90);
+		g.drawOval(getX()+285, y+10, Width+120, Height+110);
 	}
 
 	public int getX() {
@@ -365,6 +369,7 @@ class MySDC5 {
 		g.fillRect(x + 335, y + 180, Width, Height);
 		g.setColor(Color.BLUE);
 		g.fillRect(x + 345, y + 180, Width, Height);
+		g.drawOval(getX()+280, y+160, Width+120, Height+110);
 	}
 
 	public int getX() {
