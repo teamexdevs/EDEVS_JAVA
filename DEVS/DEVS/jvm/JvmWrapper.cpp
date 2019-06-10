@@ -90,6 +90,7 @@ jobject* JvmWrapper::GetCarByName(std::string name) {
 }
 
 void JvmWrapper::tick() {
+	std::cout << "JVM tick.. " << std::endl;
 	if (mid_tick == nullptr || env == nullptr) return;
 	env->CallStaticVoidMethod(explainableDEVS, mid_tick);
 }
@@ -106,6 +107,7 @@ int JvmWrapper::GetVelocity() {
 	//return env->CallIntMethod(...);
 	return rand() % 10;
 }
+
 void JvmWrapper::Accelerate(int speed) {
 	//env->CallVoidMethod();
 }

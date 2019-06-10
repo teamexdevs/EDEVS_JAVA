@@ -42,7 +42,7 @@ int main()
 	efp->AddItem(actuatorProcess);
 	efp->AddCouple("DecisionMakingProcess", "ActuatorProcess", "accel", "accel");
 	efp->AddCouple("DecisionMakingProcess", "ActuatorProcess", "slowdown", "slowdown");
-	efp->AddCouple("DecisionMakingProcess", "ActuatorProcess", "maintain", "maintain");
+	//efp->AddCouple("DecisionMakingProcess", "ActuatorProcess", "maintain", "maintain");
 	efp->AddCouple("SensorProcess", "ActuatorProcess", "crossed", "crossed");
 	efp->AddCouple("ActuatorProcess", "SelfDriveProcess", "out", "out");
 
@@ -66,7 +66,8 @@ int main()
 
 	//t.join();
 
-	
+	Log("Press any key to continue.. ");
+	std::getchar();
 
 	return 0;
 }

@@ -62,8 +62,9 @@ void DecisionMakingProcess::OutputFN() {
 		case 1:
 			MakeContent("slowdown", job_id);
 			break;
-		case 2:
-			MakeContent("maintain", job_id);
+		//case 2:
+		//	MakeContent("maintain", job_id);
+		default:
 			break;
 		}
 	}

@@ -102,6 +102,8 @@ void EntStr::Restart(void) {
 		P = Children.FindFirstList(Time);
 		if (P == nullptr) break;
 	} while (true);
+
+	Log("[" + GetClassName() + "] End of Restart..\n");
 }
 
 void EntStr::StepStart(void) {
@@ -124,7 +126,7 @@ void EntStr::StepStart(void) {
 	} while (true);
 
 #ifdef _WIN32
-	//JvmWrapper::instance().tick();
+	JvmWrapper::instance().tick();
 #endif
 
 	Log("One step ended...");
