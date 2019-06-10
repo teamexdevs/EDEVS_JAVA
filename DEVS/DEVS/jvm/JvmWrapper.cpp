@@ -70,6 +70,7 @@ bool JvmWrapper::init()
 		return false;
 	}
 
+	/*
 	mid = env->GetStaticMethodID(explainableDEVS, "close", "()V");
 	if (mid == nullptr) {
 		cerr << "ERROR: method void close() not found!" << endl;
@@ -77,14 +78,15 @@ bool JvmWrapper::init()
 	}
 	cout << "close" << endl;
 	env->CallStaticVoidMethod(explainableDEVS, mid);
-
+	*/
 	return true;
 }
 
-void JvmWrapper::bind(Atomic& model) {
+jobject* JvmWrapper::GetCarByName(std::string name) {
 	jclass edevs = env->FindClass("ExplainableDEVS");
-	jmethodID mid = env->GetMethodID(edevs, "getCar", "()V");
-	jobject car = env->CallObjectMethod(edevs, mid);
+	jmethodID mid = env->GetMethodID(edevs, "getCarByName", "(Ljava/lang/String;)Ljava/lang/Object");
+	jobject car = env->CallStaticObjectMethod(edevs, mid, name);
+	return &car;
 }
 
 void JvmWrapper::tick() {

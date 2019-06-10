@@ -5,12 +5,11 @@
 #include "../../jvm/JvmWrapper.hpp"
 #endif
 
-EntStr::EntStr(std::string EName) : Digraph(EName) {
+EntStr::EntStr(std::string entity_name) : Digraph(entity_name) {
 	SetClassName("EntStr");
-	SetName(EName);
-	ChildList.AddModel(EName,this);
+	ChildList.AddModel(entity_name, this);
 	CurrentItem = this;
-	SetClock((double)0.0);
+	SetClock((double) 0.0);
 	LimitClock = INF;
 	CClock = 0.0;
 }
@@ -33,7 +32,6 @@ double EntStr::AddClock(double T){
 	return GetClock();
 }
 
-int  EntStr::SCI(Model *Curr){ return SetCurrentItem(Curr); }
 int  EntStr::SetCurrentItem(Model *Curr){
 	CurrentItem = Curr;
 	return 1;

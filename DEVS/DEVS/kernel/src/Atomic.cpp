@@ -16,12 +16,12 @@ Atomic::Atomic(std::string entity_name) : Model(entity_name) {
 	Passivate(); 
 }
 
-Atomic::Atomic(std::string EName, Model *PModel) : Model(EName,PModel) { 
+Atomic::Atomic(std::string entity_name, Model *parent) : Model(entity_name, parent) { 
 	SetClassName("Atomic");
-	ElapsedTime = (double)0.0;
-	SetLastEventTime((double)0.0);
+	ElapsedTime = (double) 0.0;
+	SetLastEventTime((double) 0.0);
 	SetNextEventTime(INF);
-	Passivate(); 
+	Passivate();
 }
 
 double Atomic::AddSigma(double S) {
@@ -46,14 +46,22 @@ double Atomic::SubTime(double T1, double T2) {
 	return T1 - T2;
 }
 
-void Atomic::HoldIn(std::string P, double S){
-	Phase = P;
-	Sigma = S;
+void Atomic::HoldIn(std::string phase, double sigma) {
+	Phase = phase;
+	Sigma = sigma;
 }
 
-void Atomic::PassivateIn(std::string P)  { HoldIn(P, INF); }
-void Atomic::Passivate(void)        { HoldIn("passive", INF); }
-void Atomic::Continue(void)         { HoldIn(Phase, SubTime(Sigma, ElapsedTime)); }
+void Atomic::PassivateIn(std::string phase) {
+	HoldIn(phase, INF);
+}
+
+void Atomic::Passivate(void) {
+	HoldIn("passive", INF);
+}
+
+void Atomic::Continue(void) {
+	HoldIn(Phase, SubTime(Sigma, ElapsedTime));
+}
 
 void Atomic::InitialModel(void) {
 	InitializeFN();
@@ -61,53 +69,63 @@ void Atomic::InitialModel(void) {
 	if (Parent != nullptr) Parent->DoneInit((Model*) this, GetNextEventTime());
 }
 
-void Atomic::Inject(Model *S, DevsMessage MSG, double Time) {
-	Inject(MSG, Time);
+void Atomic::Inject(Model *S, DevsMessage message, double time) {
+	Inject(message, time);
 }
 
-void Atomic::Inject(DevsMessage MSG) {
-	Inject(MSG, GetNextEventTime());
+void Atomic::Inject(DevsMessage message) {
+	Inject(message, GetNextEventTime());
 }
 
-void Atomic::Inject(DevsMessage MSG, double Time) {
-	if ((Time < GetLastEventTime()) || (Time > GetNextEventTime())) return;
-	SetInMessage(MSG);
-	ElapsedTime = Time - GetLastEventTime();
-	ExtTransitionFN(ElapsedTime, MSG);
-	SetLastEventTime(Time);
+void Atomic::Inject(DevsMessage message, double time) {
+	if ((time < GetLastEventTime()) || (time > GetNextEventTime())) return;
+	SetInMessage(message);
+	ElapsedTime = time - GetLastEventTime();
+	ExtTransitionFN(ElapsedTime, message);
+	SetLastEventTime(time);
 	SetNextEventTime(AddTime(GetLastEventTime(), Sigma));
 
 	if (Parent) Parent->Done((Model* )this, GetNextEventTime());
 }
 
-void Atomic::IntTransition(void){ IntTransition(GetNextEventTime()); }
-void Atomic::IntTransition(double Time){
-	if (Time != GetNextEventTime()) return;
-	Output(Time);
-	IntTransitionFN();									  
-	SetLastEventTime(Time);
-	SetNextEventTime(AddTime(GetLastEventTime(),Sigma));
-	if (Parent) Parent->Done((Model *)this,GetNextEventTime());
+void Atomic::IntTransition(void) {
+	IntTransition(GetNextEventTime());
 }
 
-void Atomic::MakeContent(std::string Port, std::string MSG){
-	std::string OPort;
+void Atomic::IntTransition(double time) {
+	if (time != GetNextEventTime()) return;
+	Output(time);
+	IntTransitionFN();									  
+	SetLastEventTime(time);
+	SetNextEventTime(AddTime(GetLastEventTime(),Sigma));
+	if (Parent != nullptr) Parent->Done((Model*) this, GetNextEventTime());
+}
 
-	OutMessage.MakeContent(Port, MSG);
+void Atomic::MakeContent(std::string port, std::string message) {
+	std::string OPort;
+	OutMessage.MakeContent(port, message);
 	if (Parent) {
 		// FIXME: 메시지를 두 번 보내는 것이 맞는가?
-		OutMessage.MakeContent(Port, MSG);
-		Parent->Inject(this,OutMessage,GetNextEventTime());
+		OutMessage.MakeContent(port, message);
+		Parent->Inject(this, OutMessage, GetNextEventTime());
 	}
 }
 
-void Atomic::Output(void){ Output(GetNextEventTime()); }
-void Atomic::Output(double Time){
-	double Temp = GetNextEventTime();
-	SetNextEventTime(Time);
-	OutputFN();
-	SetNextEventTime(Temp);
+void Atomic::Output(void) {
+	Output(GetNextEventTime());
 }
 
-void Atomic::Done(Model *P, double Time){ return; }
-void Atomic::DoneInit(Model *P, double Time){ return; }
+void Atomic::Output(double time) {
+	double temp = GetNextEventTime();
+	SetNextEventTime(time);
+	OutputFN();
+	SetNextEventTime(temp);
+}
+
+void Atomic::Done(Model *P, double Time) {
+	return;
+}
+
+void Atomic::DoneInit(Model *P, double Time) {
+	return;
+}

@@ -2,7 +2,6 @@
 #define __JVM_WRAPPER_HPP__
 
 #include "jni.h"
-#include "../kernel/include/Atomic.hpp"
 
 #include <vector>
 
@@ -25,10 +24,9 @@ public:
 	}
 
 	bool init();
-	void bind(Atomic& model);
-
 	void tick();
 
+	jobject* GetCarByName(std::string);
 	void Draw();
 	int GetDistance();
 	int GetVelocity();

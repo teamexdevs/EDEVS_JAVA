@@ -6,6 +6,11 @@ import java.awt.*;
 
 public class PoliceCar extends SelfDrivingCar {
 
+    public PoliceCar(String name) {
+        super();
+        this.name = name;
+    }
+
     @Override
     public void draw(@NotNull Graphics g) {
         tick();

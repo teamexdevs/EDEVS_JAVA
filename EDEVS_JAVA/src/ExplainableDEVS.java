@@ -1,12 +1,10 @@
-import EDEVS.car.Ambulance;
-import EDEVS.car.Sedan;
-import EDEVS.car.Taxi;
-import EDEVS.car.Truck;
+import EDEVS.car.*;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,17 +13,15 @@ public class ExplainableDEVS extends JPanel {
 
 	private static ExplainableDEVS explainableDEVS;
 
-	private Taxi taxi;
-	private Truck truck;
-	private Ambulance ambulance;
-	private Sedan sedan;
+	private ArrayList<SelfDrivingCar> cars = new ArrayList<>();
 
 	private ExplainableDEVS() {
 		setBackground(Color.lightGray);
-		taxi = new Taxi();
-		truck = new Truck();
-		ambulance = new Ambulance();
-		sedan = new Sedan();
+		cars.add(new Taxi("Taxi"));
+		cars.add(new Truck("Truck"));
+		cars.add(new Ambulance("Ambulance"));
+		cars.add(new Sedan("Sedan"));
+		cars.add(new PoliceCar("PoliceCar"));
 	}
 
 	public void paintComponent(Graphics g) {
@@ -41,10 +37,9 @@ public class ExplainableDEVS extends JPanel {
 		g.drawLine(0, y1, getWidth(), y1);
 		g.drawLine(0, y2, getWidth(), y2);
 
-		taxi.draw(g);
-		truck.draw(g);
-		ambulance.draw(g);
-		sedan.draw(g);
+		for (SelfDrivingCar car: cars) {
+			car.draw(g);
+		}
 	}
 
 	public static void main(String[] args) {

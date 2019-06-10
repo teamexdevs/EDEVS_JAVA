@@ -6,6 +6,7 @@
 #include "../include/SensorProcess.hpp"
 #include "../include/DecisionMakingProcess.hpp"
 #include "../include/ActuatorProcess.hpp"
+#include "../include/BindableModel.hpp"
 
 #include "../jvm/JvmWrapper.hpp"
 
@@ -17,14 +18,15 @@ int main()
 {
 	// Jvm
 	//std::thread t = std::thread(init_jvm);
-	//init_jvm();
+	init_jvm();
 
 	// DEVS
 	Log(" ============ DEVS ================ \n");
 	EntStr *efp = new EntStr("ef-p");
 
 	// =================================================================================
-	Digraph *selfDriveProcess = new Digraph("SelfDriveProcess");
+	BindableModel *selfDriveProcess = new BindableModel("SelfDriveProcess");
+	//Digraph *selfDriveProcess = new Digraph("SelfDriveProcess");
 	efp->AddItem(selfDriveProcess);
 	efp->SetCurrentItem("SelfDriveProcess");
 
@@ -63,6 +65,8 @@ int main()
 	efp->Restart();
 
 	//t.join();
+
+	
 
 	return 0;
 }

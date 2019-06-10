@@ -5,6 +5,7 @@ import com.sun.istack.internal.NotNull;
 import java.awt.*;
 
 public abstract class SelfDrivingCar {
+    String name;
     int x;
     int y;
     int width;
@@ -13,14 +14,15 @@ public abstract class SelfDrivingCar {
     int velocity;
 
     public SelfDrivingCar() {
-        this(10, 10, 10, 10, 10, 5);
+        this("SelfDrivingCar", 10, 10, 10, 10, 10, 5);
     }
 
-    public SelfDrivingCar(int x, int y, int width, int height, int radius) {
-        this(x, y, width, height, radius, 5);
+    public SelfDrivingCar(String name, int x, int y, int width, int height, int radius) {
+        this(name, x, y, width, height, radius, 5);
     }
 
-    public SelfDrivingCar(int x, int y, int width, int height, int radius, int velocity) {
+    public SelfDrivingCar(String name, int x, int y, int width, int height, int radius, int velocity) {
+        this.name = name;
         this.x = x;
         this.y = y;
         this.width = width;

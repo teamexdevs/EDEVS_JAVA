@@ -154,6 +154,7 @@
     <ClCompile Include="kernel\src\Output.cpp" />
     <ClCompile Include="kernel\src\Port.cpp" />
     <ClCompile Include="src\ActuatorProcess.cpp" />
+    <ClCompile Include="src\BindableModel.cpp" />
     <ClCompile Include="src\DecisionMakingProcess.cpp" />
     <ClCompile Include="src\Generator.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="include\DecisionMakingProcess.hpp" />
     <ClInclude Include="include\Generator.hpp" />
     <ClInclude Include="include\Process.hpp" />
+    <ClInclude Include="include\BindableModel.hpp" />
     <ClInclude Include="include\SensorProcess.hpp" />
     <ClInclude Include="include\Transducer.hpp" />
     <ClInclude Include="jvm\JvmWrapper.hpp" />

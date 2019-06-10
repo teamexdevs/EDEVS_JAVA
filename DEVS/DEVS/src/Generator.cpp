@@ -4,8 +4,8 @@ Generator::Generator() : Atomic() {
 	SetName("Generator");
 }
 
-Generator::Generator(std::string EName) : Atomic(EName) {
-	SetName(EName);
+Generator::Generator(std::string entity_name) : Atomic(entity_name) {
+	SetName(entity_name);
 }
 
 void Generator::ExtTransitionFN(double E, DevsMessage X) {
@@ -27,6 +27,7 @@ void Generator::OutputFN(void) {
 
 	if (Phase == "busy") {
 		// TODO: 메시지 내용
+		// TODO: 새로운 자동차 추가
 		MakeContent("out", "Job-" + std::to_string(Count++));
 	}
 }
