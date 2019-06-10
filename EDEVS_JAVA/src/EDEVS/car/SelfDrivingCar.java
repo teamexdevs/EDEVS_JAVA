@@ -1,11 +1,13 @@
 package EDEVS.car;
 
+import EDEVS.util.GlobalVariables;
 import com.sun.istack.internal.NotNull;
 
 import java.awt.*;
 
 public abstract class SelfDrivingCar {
     String name;
+    int lane;
     int x;
     int y;
     int width;
@@ -14,21 +16,34 @@ public abstract class SelfDrivingCar {
     int velocity;
 
     public SelfDrivingCar() {
-        this("SelfDrivingCar", 10, 10, 10, 10, 10, 5);
+        this("SelfDrivingCar", 1, (int) (Math.random() * 100) % 10 + 1);
     }
 
-    public SelfDrivingCar(String name, int x, int y, int width, int height, int radius) {
-        this(name, x, y, width, height, radius, 5);
+    public SelfDrivingCar(String name) {
+        this(name, (int) (Math.random() * 100) % 3 + 1, (int) (Math.random() * 100) % 10 + 1);
     }
 
-    public SelfDrivingCar(String name, int x, int y, int width, int height, int radius, int velocity) {
+    public SelfDrivingCar(String name, int lane) {
+        this(name, lane, (int) (Math.random() * 100) % 10 + 1);
+    }
+
+    public SelfDrivingCar(String name, int lane, int velocity) {
         this.name = name;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.radius = radius;
+        this.lane = lane;
+        this.x = 10;
+        this.y = (GlobalVariables.HEIGHT / 3) * (lane - 1);
+        this.width = 10;
+        this.height = 10;
+        this.radius = 10;
         this.velocity = velocity;
+    }
+
+    public int getLane() {
+        return lane;
+    }
+
+    public int getX() {
+        return x;
     }
 
     public int getVelocity() {

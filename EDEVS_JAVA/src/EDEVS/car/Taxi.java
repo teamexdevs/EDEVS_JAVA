@@ -11,6 +11,10 @@ public class Taxi extends SelfDrivingCar {
         this.name = name;
     }
 
+    public Taxi(String name, int lane) {
+        super(name, lane, (int) (Math.random() * 100) % 10 + 1);
+    }
+
     @Override
     public void draw(@NotNull Graphics g) {
         tick();
