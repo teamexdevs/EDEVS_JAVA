@@ -38,6 +38,10 @@ public abstract class SelfDrivingCar {
         this.velocity = velocity;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public int getLane() {
         return lane;
     }
@@ -51,7 +55,7 @@ public abstract class SelfDrivingCar {
     }
 
     public void setVelocity(int velocity) {
-        this.velocity += velocity;
+        this.velocity = velocity;
     }
 
     public void tick() {

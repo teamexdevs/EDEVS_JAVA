@@ -54,7 +54,8 @@ void Transducer::InitializeFN(void){
 	Arrive.Num = 0;
 	Solve.Num = 0;
 
-	HoldIn("active", (double) 100.0);
+	//HoldIn("active", (double) 100.0);
+	HoldIn("active", 1000);
 }
 
 

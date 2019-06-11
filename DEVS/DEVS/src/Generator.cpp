@@ -61,7 +61,7 @@ void Generator::OutputFN(void) {
 }
 
 void Generator::InitializeFN(void) {
-	InterArrivalTime = 1;
+	InterArrivalTime = 3;
 	Count = 0;
 
 	HoldIn("busy", 0.0);

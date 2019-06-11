@@ -3,10 +3,11 @@
 
 #include "../jvm/JvmWrapper.hpp"
 
-ActuatorProcess::ActuatorProcess(std::string entity_name)
+ActuatorProcess::ActuatorProcess(std::string entity_name, int id)
 	: Atomic(entity_name)
 {
 	SetClassName("ActuatorProcess");
+	this->id = id;
 }
 
 void ActuatorProcess::InitializeFN() {
@@ -42,7 +43,7 @@ void ActuatorProcess::IntTransitionFN() {
 		/**
 		 * TODO
 		 */
-		JvmWrapper::GetInstance().Accelerate(0);
+		JvmWrapper::GetInstance().Accelerate("Car#" + std::to_string(id), 0);
 		if (!queue.empty()) {
 			job_id = queue.front();
 			SetColor(COLOR_LIGHT_RED);

@@ -93,15 +93,31 @@ void JvmWrapper::InitMethodId() {
 	if (_GetCarByNameID == nullptr) {
 		Logerr("ERROR: method \"SelfDrivingCar getCarByName(String name)\" not found!\n");
 	}
+	Log("Getting method \"int getDistance(String name)\"..\n");
+	_GetDistanceID = env->GetMethodID(_ExplainableDEVSClass, "getDistance", "(Ljava/lang/String;)I");
+	if (_GetDistanceID == nullptr) {
+		Logerr("ERROR: method \"int getDistance(String name)\" not found!\n");
+	}
+	Log("Getting method \"int getVelocityOf(String name)\"..\n");
+	_GetVelocityOfID = env->GetMethodID(_ExplainableDEVSClass, "getVelocityOf", "(Ljava/lang/String;)I");
+	if (_GetVelocityOfID == nullptr) {
+		Logerr("ERROR: method \"int getDistance(String name)\" not found!\n");
+	}
+	Log("Getting method \"void accelerate(String name)\"..\n");
+	_AccelerateID = env->GetMethodID(_ExplainableDEVSClass, "accelerate", "(Ljava/lang/String;I)V");
+	if (_AccelerateID == nullptr) {
+		Logerr("ERROR: method \"void accelerate(String name)\" not found!\n");
+	}
+	Log("Getting method \"void slowdown(String name)\"..\n");
+	_SlowdownID = env->GetMethodID(_ExplainableDEVSClass, "slowdown", "(Ljava/lang/String;I)V");
+	if (_SlowdownID == nullptr) {
+		Logerr("ERROR: method \"void slowdown(String name)\" not found!\n");
+	}
 }
 
 void JvmWrapper::tick() {
-	//Log("JVM tick.. \n");
-	//Log("_TickID is null: " + std::to_string(_TickID == nullptr) + "\n");
-	//Log("env is null: " + std::to_string(env == nullptr) + "\n");
 	if (_TickID == nullptr || env == nullptr) return;
 	env->CallVoidMethod(_ExplainableDEVSInstance, _TickID);
-	//Log("tock!\n");
 }
 
 void JvmWrapper::Execute() {
@@ -116,8 +132,6 @@ bool JvmWrapper::GetLaneStatus(int lane) {
 void JvmWrapper::SpawnCar(std::string name, int lane) {
 	jstring jstr = env->NewStringUTF(name.c_str());
 	env->CallVoidMethod(_ExplainableDEVSInstance, _SpawnCarID, jstr, lane);
-
-	// TODO: Activate DEVS
 }
 
 jobject JvmWrapper::GetCarByName(std::string name) {
@@ -125,23 +139,26 @@ jobject JvmWrapper::GetCarByName(std::string name) {
 	return env->CallObjectMethod(_ExplainableDEVSInstance, _GetCarByNameID, jstr);
 }
 
-int JvmWrapper::GetDistance() {
-	return rand() % 100;
+int JvmWrapper::GetDistance(std::string name) {
+	jstring jstr = env->NewStringUTF(name.c_str());
+	return env->CallIntMethod(_ExplainableDEVSInstance, _GetDistanceID, jstr);
 }
 
-int JvmWrapper::GetVelocity() {
-	//return env->CallIntMethod(...);
-	return rand() % 10;
+int JvmWrapper::GetVelocityOf(std::string name) {
+	jstring jstr = env->NewStringUTF(name.c_str());
+	return env->CallIntMethod(_ExplainableDEVSInstance, _GetVelocityOfID, jstr);
 }
 
-void JvmWrapper::Accelerate(int speed) {
-	//env->CallVoidMethod();
+void JvmWrapper::Accelerate(std::string name, int speed) {
+	jstring jstr = env->NewStringUTF(name.c_str());
+	env->CallVoidMethod(_ExplainableDEVSInstance, _AccelerateID, jstr, speed);
 }
 
-void JvmWrapper::Slowdown(int speed) {
-
+void JvmWrapper::Slowdown(std::string name, int speed) {
+	jstring jstr = env->NewStringUTF(name.c_str());
+	env->CallVoidMethod(_ExplainableDEVSInstance, _SlowdownID, jstr, speed);
 }
 
 bool JvmWrapper::CheckNull(jobject obj) {
-	return env->IsSameObject(obj, NULL);
+	return env->IsSameObject(obj, NULL) == JNI_TRUE;
 }

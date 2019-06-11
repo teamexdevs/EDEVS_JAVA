@@ -45,7 +45,7 @@ int main()
 		efp->AddItem(decisionMakingProcess);
 		efp->AddCouple(sid, did, "out", "in");
 		std::string aid = "ActuatorProcess#" + std::to_string(i);
-		ActuatorProcess *actuatorProcess = new ActuatorProcess(aid);
+		ActuatorProcess *actuatorProcess = new ActuatorProcess(aid, i);
 		efp->AddItem(actuatorProcess);
 		efp->AddCouple(did, aid, "accel", "accel");
 		efp->AddCouple(did, aid, "slowdown", "slowdown");

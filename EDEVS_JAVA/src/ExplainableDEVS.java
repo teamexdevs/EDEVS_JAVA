@@ -17,13 +17,11 @@ public class ExplainableDEVS extends JPanel {
 	private HashMap<String, SelfDrivingCar> cars = new HashMap<>();
 	private boolean[] isEmpty = new boolean[3];
 
+	public static final int MIN_VELOCITY = 1;
+	public static final int MAX_VELOCITY = 10;
+
 	private ExplainableDEVS() {
 		setBackground(Color.lightGray);
-		/*
-		for (int i = 1; i <= 3; ++i) {
-			spawnCar("Car#" + i, i);
-		}
-		*/
 	}
 
 	private static class Holder {
@@ -86,6 +84,38 @@ public class ExplainableDEVS extends JPanel {
 		return isEmpty[lane-1];
 	}
 
+	public int getDistance(String name) {
+		SelfDrivingCar car = cars.get(name);
+		List<SelfDrivingCar> frontal = cars.values().stream()
+				.filter(_car -> _car.getLane() == car.getLane())
+				.filter(_car -> _car.getX() > car.getX())
+				.sorted((car1, car2) -> car2.getX() - car1.getX())
+				.collect(Collectors.toList());
+		if (frontal.isEmpty()) {
+			return Integer.MAX_VALUE;
+		} else {
+			return frontal.get(0).getX() - car.getX();
+		}
+	}
+
+	public int getVelocityOf(String name) {
+		return cars.get(name).getVelocity();
+	}
+
+	public void accelerate(String name, int accel) {
+		SelfDrivingCar car = cars.get(name);
+		int velocity = car.getVelocity();
+		if (velocity == MAX_VELOCITY) return;
+		car.setVelocity(velocity + accel);
+	}
+
+	public void slowdown(String name, int decel) {
+		SelfDrivingCar car = cars.get(name);
+		int velocity = car.getVelocity();
+		if (velocity == MIN_VELOCITY) return;
+		car.setVelocity(velocity - decel);
+	}
+
 	/*
 	public boolean[] getLaneStatus() {
 		boolean[] isEmpty = new boolean[3];
@@ -106,8 +136,20 @@ public class ExplainableDEVS extends JPanel {
 
 	public static void main(String[] args) {
 		execute();
-		while (true)
-			ExplainableDEVS.getInstance().tick();
+		ExplainableDEVS exdevs = ExplainableDEVS.getInstance();
+		while (true) {
+			if (exdevs.cars.size() < 10)
+				exdevs.spawnCar("Car@" + System.currentTimeMillis(), (int) (Math.random() * 100) % 3 + 1);
+			System.out.println("======================== DISTANCE ========================");
+			for (SelfDrivingCar car: exdevs.cars.values()) {
+				int distance = exdevs.getDistance(car.getName());
+				System.out.println(String.format("[Tickin] Name: %s, Distance: %d, Velocity: %d", car.getName(), distance, car.getVelocity()));
+				if (distance <= 300) {
+					exdevs.slowdown(car.getName(), 1);
+				}
+			}
+			exdevs.tick();
+		}
 	}
 
 	public static void execute() {
@@ -121,20 +163,19 @@ public class ExplainableDEVS extends JPanel {
 	}
 
 	public void tick() {
-		//if (cars.size() < 10)
-		//	spawnCar("Car@" + System.currentTimeMillis(), (int) (Math.random() * 100) % 3 + 1);
 		List<String> carsOutOfRange = cars.keySet().stream()
 				.filter(name -> cars.get(name).getX() >= GlobalVariables.WIDTH)
 				.collect(Collectors.toList());
 		carsOutOfRange.forEach(name -> cars.remove(name));
 		updateLaneStatus();
 		repaint();
-
+		/*
 		try {
 			Thread.sleep(100);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 
 	public static void close() {

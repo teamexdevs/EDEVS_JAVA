@@ -17,6 +17,7 @@ class Transducer : public Atomic {
 public:
     std::string JobID;
 	double  clock;
+	// FIXME: Passing, Passed
     JOBS    Arrive, Solve;
 
 public:

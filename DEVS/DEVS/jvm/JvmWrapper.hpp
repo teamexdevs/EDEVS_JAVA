@@ -20,6 +20,10 @@ private:
 	jmethodID _GetLaneStatusID;
 	jmethodID _SpawnCarID;
 	jmethodID _GetCarByNameID;
+	jmethodID _GetDistanceID;
+	jmethodID _GetVelocityOfID;
+	jmethodID _AccelerateID;
+	jmethodID _SlowdownID;
 
 	JvmWrapper();
 	~JvmWrapper();
@@ -37,11 +41,10 @@ public:
 	bool GetLaneStatus(int lane);
 	void SpawnCar(std::string name, int lane);
 	jobject GetCarByName(std::string);
-
-	int GetDistance();
-	int GetVelocity();
-	void Accelerate(int speed);
-	void Slowdown(int speed);
+	int GetDistance(std::string);
+	int GetVelocityOf(std::string);
+	void Accelerate(std::string, int speed);
+	void Slowdown(std::string, int speed);
 
 	// Utility
 	bool CheckNull(jobject);

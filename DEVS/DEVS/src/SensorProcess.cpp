@@ -15,7 +15,6 @@ SensorProcess::SensorProcess(std::string entity_name, int id)
 void SensorProcess::InitializeFN() {
 	processing_time = 3.0;
 	Passivate();
-	ClearMessageQueue(queue);
 }
 
 /**
@@ -25,9 +24,11 @@ void SensorProcess::ExtTransitionFN(double time, DevsMessage message) {
 	SetColor(COLOR_LIGHT_RED);
 	Log(Name + "(EXT) --> ");
 
-	Log(message.ContentPort() + ":" + message.ContentValue() + "\n");
+	if (message.ContentPort() == "in") {
+		Log(message.ContentPort() + ":" + message.ContentValue() + "\n");
+		HoldIn("busy", processing_time);	// passive -> busy
+	}
 	SetColor(COLOR_DEFAULT);
-	HoldIn("busy", processing_time);
 	/*
 	if (message.ContentPort() == "in") {
 		queue.push(message.ContentValue());
@@ -50,18 +51,28 @@ void SensorProcess::ExtTransitionFN(double time, DevsMessage message) {
  * Infinite Loop
  */
 void SensorProcess::IntTransitionFN() {
+	SetColor(COLOR_LIGHT_PURPLE);
 	Log(Name + "(INT) --> ");
 	if (Phase == "busy") {
 
 		HoldIn("busy", processing_time);
 		// TODO [0]: 주행이 완료되었는지 확인한다.
-		jobject car = JvmWrapper::GetInstance().GetCarByName("Car#" + id);
+		std::string car_id = "Car#" + std::to_string(id);
+		jobject car = JvmWrapper::GetInstance().GetCarByName(car_id);
 		if (JvmWrapper::GetInstance().CheckNull(car)) {
-			SetColor(COLOR_BRIGHT_WHITE);
-			Log("[SensorProcess] " + GetName() + " :: Car is gone..\n");
+			Log("[SensorProcess] " + car_id + " :: Car is gone..\n");
+			MakeContent("passed", job_id);
+			Passivate();
 			SetColor(COLOR_DEFAULT);
+			return;
 		}
-
+		int distance = JvmWrapper::GetInstance().GetDistance(car_id);
+		Log("[SensorProcess] " + car_id + " :: distance: " + std::to_string(distance) + "\n");
+		if (distance <= 300) {
+			Log("[SensorProcess] slowdown " + car_id + " speed 1..\n");
+			JvmWrapper::GetInstance().Slowdown(car_id, 1);
+			Log("[SensorProcess] " + car_id + " has decelerated..\n");
+		}
 		/*
 		if (!queue.empty()) {
 			job_id = queue.front();
@@ -85,16 +96,12 @@ void SensorProcess::IntTransitionFN() {
 		Continue();
 	}
 	NextLine();
+	SetColor(COLOR_DEFAULT);
 }
 
 void SensorProcess::OutputFN() {
 	Log(Name + "(OUT) --> ");
 	if (Phase == "busy") {
-		if (rand() % 100 < 30) {
-			MakeContent("crossed", job_id);
-			Passivate();
-			return;
-		}
 		MakeContent("out", job_id);
 	}
 	NextLine();
