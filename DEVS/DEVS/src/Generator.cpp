@@ -35,9 +35,17 @@ void Generator::OutputFN(void) {
 			if (laneStatus == true) {
 				SetColor(COLOR_AQUA);
 				Log("[Generator] Lane #" + std::to_string(lane) + " is empty.\n");
-				JvmWrapper::GetInstance().SpawnCar("Car#" + std::to_string(++NumberOfCars), lane);
-				Log("[Generator] Car#" + std::to_string(NumberOfCars) + " has spawned.\n");
+				std::string car_id = "Car#" + std::to_string(++NumberOfCars);
+				JvmWrapper::GetInstance().SpawnCar(car_id, lane);
+				Log("[Generator] " + car_id + " has spawned.\n");
 				SetColor(COLOR_DEFAULT);
+
+				// Activate Model #i
+				std::string out = "out-" + std::to_string(NumberOfCars);
+				std::string job = "job-" + std::to_string(Count++);
+				Log("[Generator] out: " + out + ", job: " + job + "\n");
+				MakeContent(out, job);
+				//MakeContent("out-" + std::to_string(NumberOfCars), "Job-" + std::to_string(Count++));
 			}
 			else {
 				Log("[Generator] Lane #" + std::to_string(lane) + " is not empty.\n");
@@ -45,7 +53,7 @@ void Generator::OutputFN(void) {
 		}
 		Log("[Generator_OutputFN] Lane finished.\n");
 
-		MakeContent("out", "Job-" + std::to_string(Count++));
+		//MakeContent("out", "Job-" + std::to_string(Count++));
 	}
 }
 

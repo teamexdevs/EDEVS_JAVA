@@ -22,11 +22,7 @@ int main()
 	// Jvm
 	//std::thread t = std::thread(init_jvm);
 	init_jvm();
-	/*
-	for (int i = 1; i <= 3; ++i) {
-		JvmWrapper::GetInstance().SpawnCar("Car#" + std::to_string(i), i);
-	}
-	*/
+
 	// DEVS
 	Log(" ============ DEVS ================ \n");
 	efp = new EntStr("ef-p");
@@ -36,11 +32,12 @@ int main()
 	SetColor(COLOR_AQUA);
 	for (int i = 1; i <= Generator::GetMaxNumberOfCars(); ++i) {
 		std::string bid = "SelfDriveProcess#" + std::to_string(i);
-		BindableModel *selfDriveProcess = new BindableModel(bid);
+		//BindableModel *selfDriveProcess = new BindableModel(bid);
+		Digraph *selfDriveProcess = new Digraph(bid);
 		efp->AddItem(selfDriveProcess);
 		efp->SetCurrentItem(bid);
 		std::string sid = "SensorProcess#" + std::to_string(i);
-		SensorProcess *sensorProcess = new SensorProcess(sid);
+		SensorProcess *sensorProcess = new SensorProcess(sid, i);
 		efp->AddItem(sensorProcess);
 		efp->AddCouple(bid, sid, "in", "in");
 		std::string did = "DecisionMakingProcess#" + std::to_string(i);
@@ -65,8 +62,13 @@ int main()
 	efp->SetCurrentItem("ef-p");
 
 	efp->AddItem(new Digraph("ef"));
-	efp->AddCouple("ef", "SelfDriveProcess#1", "OUT", "in");
-	efp->AddCouple("SelfDriveProcess#1", "ef", "out", "IN");
+	//efp->AddCouple("ef", "SelfDriveProcess#1", "OUT", "in");
+	//efp->AddCouple("SelfDriveProcess#1", "ef", "out", "IN");
+	for (int i = 1; i <= Generator::GetMaxNumberOfCars(); ++i) {
+		std::string id = std::to_string(i);
+		efp->AddCouple("ef", "SelfDriveProcess#" + id, "OUT-" + id, "in");
+		efp->AddCouple("SelfDriveProcess#" + id, "ef", "out", "IN-" + id);
+	}
 
 	efp->SetCurrentItem("ef");
 	efp->AddItem(new Generator("genr"));
@@ -74,8 +76,13 @@ int main()
 	efp->AddCouple("ef", "transd", "IN", "solved");
 	efp->AddCouple("transd", "genr", "out", "stop");
 
-	efp->AddCouple("genr", "ef", "out", "OUT");
-	efp->AddCouple("genr", "transd", "out", "arriv");
+	//efp->AddCouple("genr", "ef", "out", "OUT");
+	//efp->AddCouple("genr", "transd", "out", "arriv");
+	for (int i = 1; i <= Generator::GetMaxNumberOfCars(); ++i) {
+		std::string id = std::to_string(i);
+		efp->AddCouple("genr", "ef", "out-" + id, "OUT-" + id);
+		efp->AddCouple("genr", "transd", "out-" + id, "arriv");
+	}
 
 	efp->Restart();
 

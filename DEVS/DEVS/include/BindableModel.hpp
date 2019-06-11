@@ -10,7 +10,7 @@
 class BindableModel : public Digraph {
 private:
 #ifdef _WIN32
-	jobject *binded;
+	jobject binded;
 #endif
 public:
 	BindableModel(std::string);

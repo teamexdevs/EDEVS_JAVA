@@ -62,14 +62,6 @@ bool JvmWrapper::init()
 	return true;
 }
 
-jobject* JvmWrapper::GetCarByName(std::string name) {
-	return nullptr;
-	jclass edevs = env->FindClass("ExplainableDEVS");
-	jmethodID mid = env->GetMethodID(edevs, "getCarByName", "(Ljava/lang/String;)Ljava/lang/Object");
-	jobject car = env->CallStaticObjectMethod(edevs, mid, name);
-	return &car;
-}
-
 void JvmWrapper::InitMethodId() {
 	Log("Getting method \"static void tick()\"..\n");
 	_TickID = env->GetMethodID(_ExplainableDEVSClass, "tick", "()V");
@@ -96,15 +88,20 @@ void JvmWrapper::InitMethodId() {
 	if (_SpawnCarID == nullptr) {
 		Logerr("ERROR: method \"void spawnCar(String name, int lane)\" not found!\n");
 	}
+	Log("Getting method \"SelfDrivingCar getCarByName(String name)\"..\n");
+	_GetCarByNameID = env->GetMethodID(_ExplainableDEVSClass, "getCarByName", "(Ljava/lang/String;)LEDEVS/car/SelfDrivingCar;");
+	if (_GetCarByNameID == nullptr) {
+		Logerr("ERROR: method \"SelfDrivingCar getCarByName(String name)\" not found!\n");
+	}
 }
 
 void JvmWrapper::tick() {
-	Log("JVM tick.. \n");
-	Log("_TickID is null: " + std::to_string(_TickID == nullptr) + "\n");
-	Log("env is null: " + std::to_string(env == nullptr) + "\n");
+	//Log("JVM tick.. \n");
+	//Log("_TickID is null: " + std::to_string(_TickID == nullptr) + "\n");
+	//Log("env is null: " + std::to_string(env == nullptr) + "\n");
 	if (_TickID == nullptr || env == nullptr) return;
 	env->CallVoidMethod(_ExplainableDEVSInstance, _TickID);
-	Log("tock!\n");
+	//Log("tock!\n");
 }
 
 void JvmWrapper::Execute() {
@@ -122,6 +119,11 @@ void JvmWrapper::SpawnCar(std::string name, int lane) {
 	// TODO: Activate DEVS
 }
 
+jobject JvmWrapper::GetCarByName(std::string name) {
+	jstring jstr = env->NewStringUTF(name.c_str());
+	return env->CallObjectMethod(_ExplainableDEVSInstance, _GetCarByNameID, jstr);
+}
+
 int JvmWrapper::GetDistance() {
 	return rand() % 100;
 }
@@ -137,4 +139,8 @@ void JvmWrapper::Accelerate(int speed) {
 
 void JvmWrapper::Slowdown(int speed) {
 
+}
+
+bool JvmWrapper::CheckNull(jobject obj) {
+	return env->IsSameObject(obj, NULL);
 }

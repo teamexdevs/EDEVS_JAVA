@@ -131,6 +131,7 @@ void EntStr::StepStart(void) {
 	} while (true);
 
 #ifdef _WIN32
+	std::cout << "Car#1: " << JvmWrapper::GetInstance().GetCarByName("Car#1") << std::endl;
 	JvmWrapper::GetInstance().tick();
 #endif
 

@@ -19,9 +19,11 @@ public class ExplainableDEVS extends JPanel {
 
 	private ExplainableDEVS() {
 		setBackground(Color.lightGray);
+		/*
 		for (int i = 1; i <= 3; ++i) {
 			spawnCar("Car#" + i, i);
 		}
+		*/
 	}
 
 	private static class Holder {
@@ -47,6 +49,10 @@ public class ExplainableDEVS extends JPanel {
 		}
 	}
 
+	public SelfDrivingCar getCarByName(String name) {
+		return cars.get(name);
+	}
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
@@ -61,7 +67,7 @@ public class ExplainableDEVS extends JPanel {
 		g.drawLine(0, y2, getWidth(), y2);
 
 		cars.forEach((name, car) -> car.draw(g));
-		System.out.println(String.format("Repaint: %d cars left..", cars.size()));
+		//System.out.println(String.format("Repaint: %d cars left..", cars.size()));
 	}
 
 	public void updateLaneStatus() {

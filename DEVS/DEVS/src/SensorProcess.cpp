@@ -5,10 +5,11 @@
 
 #include <cmath>
 
-SensorProcess::SensorProcess(std::string entity_name)
+SensorProcess::SensorProcess(std::string entity_name, int id)
 	: Atomic(entity_name)
 {
 	SetClassName("SensorProcess");
+	this->id = id;
 }
 
 void SensorProcess::InitializeFN() {
@@ -17,8 +18,17 @@ void SensorProcess::InitializeFN() {
 	ClearMessageQueue(queue);
 }
 
+/**
+ * ONLY ONCE!
+ */
 void SensorProcess::ExtTransitionFN(double time, DevsMessage message) {
+	SetColor(COLOR_LIGHT_RED);
 	Log(Name + "(EXT) --> ");
+
+	Log(message.ContentPort() + ":" + message.ContentValue() + "\n");
+	SetColor(COLOR_DEFAULT);
+	HoldIn("busy", processing_time);
+	/*
 	if (message.ContentPort() == "in") {
 		queue.push(message.ContentValue());
 		Log(message.ContentPort() + ":" + message.ContentValue());
@@ -33,33 +43,43 @@ void SensorProcess::ExtTransitionFN(double time, DevsMessage message) {
 		Continue();
 	}
 	NextLine();
+	*/
 }
 
+/**
+ * Infinite Loop
+ */
 void SensorProcess::IntTransitionFN() {
 	Log(Name + "(INT) --> ");
 	if (Phase == "busy") {
+
+		HoldIn("busy", processing_time);
+		// TODO [0]: 주행이 완료되었는지 확인한다.
+		jobject car = JvmWrapper::GetInstance().GetCarByName("Car#" + id);
+		if (JvmWrapper::GetInstance().CheckNull(car)) {
+			SetColor(COLOR_BRIGHT_WHITE);
+			Log("[SensorProcess] " + GetName() + " :: Car is gone..\n");
+			SetColor(COLOR_DEFAULT);
+		}
+
+		/*
 		if (!queue.empty()) {
 			job_id = queue.front();
 			Log(" process: " + job_id);
 			HoldIn("busy", processing_time);
-			/**
-			 * TODO [0]: 주행이 완료되었는지 확인한다.
-			 */
-			/**
-			 * TODO [1]: Java-binded Car 객체로부터 앞차와의 거리값을 읽어온다.
-			 */
+			// TODO [0]: 주행이 완료되었는지 확인한다.
+			// TODO [1]: Java-binded Car 객체로부터 앞차와의 거리값을 읽어온다.
 			int distance_in_pixel = JvmWrapper::GetInstance().GetDistance();
 			SetColor(COLOR_LIGHT_BLUE);
 			Log(" (distance: " + std::to_string(distance_in_pixel) + " meters) ");
 			SetColor(COLOR_DEFAULT);
-			/**
-			 * TODO [2]: 현재 속력을 고려했을 때 일정 거리 이하일 경우 대처를 취한다.
-			 */
+			// TODO [2]: 현재 속력을 고려했을 때 일정 거리 이하일 경우 대처를 취한다.
 			queue.pop();
 		}
 		else {
 			Passivate();
 		}
+		*/
 	}
 	else {
 		Continue();
