@@ -13,6 +13,6 @@ BindableModel::~BindableModel() {}
 
 void BindableModel::bind(std::string instance_name) {
 #ifdef _WIN32
-	this->binded = JvmWrapper::instance().GetCarByName(instance_name);
+	this->binded = JvmWrapper::GetInstance().GetCarByName(instance_name);
 #endif
 }

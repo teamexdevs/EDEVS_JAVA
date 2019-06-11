@@ -1,15 +1,11 @@
 #include "JvmWrapper.hpp"
 
-#include <iostream>
+#include "../kernel/include/Tglobal.h"
+
 #include <string>
 #include <cmath>
 #include <ctime>
 using namespace std;
-
-/**
- * Calling Java from C++ with JNI: https://www.codeproject.com/Articles/993067/Calling-Java-from-Cplusplus-with-JNI
- * JNI Method Signature : https://codepedia.tistory.com/entry/JNI-Method-signature
- */
 
 #if defined(_WIN32)
 #elif defined(__linux__)
@@ -42,65 +38,89 @@ bool JvmWrapper::init()
 	delete options[0].optionString;
 	delete options;
 	if (rc != JNI_OK) {
-		cin.get();
+		Log("[JNI_CreateJavaVM] Result code: " + std::to_string(rc) + "\n");
 		exit(EXIT_FAILURE);
 	}
-	cout << "JVM load succeeded: Version ";
+	Log("JVM load succeeded: Version ");
 	jint ver = env->GetVersion();
-	cout << ((ver >> 16) & 0x0F) << "." << (ver & 0x0F) << endl;
+	Log(std::to_string((ver >> 16) & 0x0F) + "." + std::to_string(ver & 0x0F) + "\n");
+	// Explainable DEVS Class
+	_ExplainableDEVSClass = env->FindClass("ExplainableDEVS");
+	if (_ExplainableDEVSClass == nullptr) {
+		Logerr("ERROR: class not found!\n");
+		return false;
+	}
+	Log("Class found!\n");
+	// Init Method IDs
+	this->InitMethodId();
+	// Explainable DEVS Instance
+	Log("Call \"static ExplainableDEVS getInstance()\"..\n");
+	_ExplainableDEVSInstance = env->CallObjectMethod(_ExplainableDEVSClass, _GetInstanceID);
+	this->Execute();
 
-	explainableDEVS = env->FindClass("ExplainableDEVS");
-	if (explainableDEVS == nullptr) {
-		cerr << "ERROR: class not found!" << endl;
-		return false;
-	}
-	cout << "Class found!" << endl;
-	jmethodID mid = env->GetStaticMethodID(explainableDEVS, "execute", "()V");
-	if (mid == nullptr) {
-		cerr << "ERROR: method void execute() not found!" << endl;
-		return false;
-	}
-	env->CallStaticVoidMethod(explainableDEVS, mid);
-	cout << endl;
-	// TODO: onload..
-
-	mid_tick = env->GetStaticMethodID(explainableDEVS, "tick", "()V");
-	if (mid_tick == nullptr) {
-		cerr << "ERROR: method void tick() not found!" << endl;
-		return false;
-	}
-
-	/*
-	mid = env->GetStaticMethodID(explainableDEVS, "close", "()V");
-	if (mid == nullptr) {
-		cerr << "ERROR: method void close() not found!" << endl;
-		return false;
-	}
-	cout << "close" << endl;
-	env->CallStaticVoidMethod(explainableDEVS, mid);
-	*/
 	return true;
 }
 
 jobject* JvmWrapper::GetCarByName(std::string name) {
+	return nullptr;
 	jclass edevs = env->FindClass("ExplainableDEVS");
 	jmethodID mid = env->GetMethodID(edevs, "getCarByName", "(Ljava/lang/String;)Ljava/lang/Object");
 	jobject car = env->CallStaticObjectMethod(edevs, mid, name);
 	return &car;
 }
 
-void JvmWrapper::tick() {
-	std::cout << "JVM tick.. " << std::endl;
-	if (mid_tick == nullptr || env == nullptr) return;
-	env->CallStaticVoidMethod(explainableDEVS, mid_tick);
-}
-
 void JvmWrapper::InitMethodId() {
-	_GetLaneStatusID = env->GetMethodID(edevs)
+	Log("Getting method \"static void tick()\"..\n");
+	_TickID = env->GetMethodID(_ExplainableDEVSClass, "tick", "()V");
+	if (_TickID == nullptr) {
+		Logerr("ERROR: method void tick() not found!\n");
+	}
+	Log("Getting method \"static void execute()\"..\n");
+	_ExecuteID = env->GetStaticMethodID(_ExplainableDEVSClass, "execute", "()V");	// void
+	if (_ExecuteID == nullptr) {
+		Logerr("ERROR: method void execute() not found!\n");
+	}
+	Log("Getting method \"static ExplainableDEVS getInstance()\"..\n");
+	_GetInstanceID = env->GetStaticMethodID(_ExplainableDEVSClass, "getInstance", "()LExplainableDEVS;");
+	if (_GetInstanceID == nullptr) {
+		Logerr("ERROR: method ExplainableDEVS getInstance() not found!\n");
+	}
+	Log("Getting method \"void updateLaneStatus()\"..\n");
+	_UpdateLaneStatusID = env->GetMethodID(_ExplainableDEVSClass, "updateLaneStatus", "()V");
+	if (_UpdateLaneStatusID == nullptr) {
+		Logerr("ERROR: method \"void updateLaneStatus()\" not found!\n");
+	}
+	Log("Getting method \"boolean getLaneStatus(int lane)\"..\n");
+	_GetLaneStatusID = env->GetMethodID(_ExplainableDEVSClass, "getLaneStatus", "(I)Z");	// boolean[]
+	if (_GetLaneStatusID == nullptr) {
+		Logerr("ERROR: method \"boolean getLaneStatus(int lane)\" not found!\n");
+	}
+	Log("Getting method \"void spawnCar(String name, int lane)\"..\n");
+	_SpawnCarID = env->GetMethodID(_ExplainableDEVSClass, "spawnCar", "(Ljava/lang/String;I)V");
+	if (_SpawnCarID == nullptr) {
+		Logerr("ERROR: method \"void spawnCar(String name, int lane)\" not found!\n");
+	}
 }
 
-void JvmWrapper::Draw() {
+void JvmWrapper::tick() {
+	Log("JVM tick.. \n");
+	Log("_TickID is null: " + std::to_string(_TickID == nullptr) + "\n");
+	Log("env is null: " + std::to_string(env == nullptr) + "\n");
+	if (_TickID == nullptr || env == nullptr) return;
+	env->CallVoidMethod(_ExplainableDEVSInstance, _TickID);
+	Log("tock!\n");
+}
 
+void JvmWrapper::Execute() {
+	env->CallStaticVoidMethod(_ExplainableDEVSClass, _ExecuteID);
+}
+
+bool JvmWrapper::GetLaneStatus(int lane) {
+	return env->CallBooleanMethod(_ExplainableDEVSInstance, _GetLaneStatusID, lane) == JNI_TRUE;
+}
+
+void JvmWrapper::SpawnCar(std::string name, int lane) {
+	env->CallVoidMethod(_ExplainableDEVSInstance, _SpawnCarID, name, lane);
 }
 
 int JvmWrapper::GetDistance() {
@@ -121,9 +141,5 @@ void JvmWrapper::Slowdown() {
 }
 
 void JvmWrapper::Maintain() {
-
-}
-
-int* JvmWrapper::GetLaneStatus() {
 
 }

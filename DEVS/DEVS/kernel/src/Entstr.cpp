@@ -130,7 +130,7 @@ void EntStr::StepStart(void) {
 	} while (true);
 
 #ifdef _WIN32
-	JvmWrapper::instance().tick();
+	JvmWrapper::GetInstance().tick();
 #endif
 
 	Log("One step ended...");

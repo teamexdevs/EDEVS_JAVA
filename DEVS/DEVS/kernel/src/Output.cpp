@@ -10,6 +10,10 @@ void Log(std::string str) {
 	std::cout << str;
 }
 
+void Logerr(std::string error) {
+	std::cerr << error;
+}
+
 void NextLine(int lines) {
 	while (lines--)
 		std::cout << std::endl;

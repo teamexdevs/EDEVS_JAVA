@@ -48,7 +48,7 @@ void SensorProcess::IntTransitionFN() {
 			/**
 			 * TODO [1]: Java-binded Car 객체로부터 앞차와의 거리값을 읽어온다.
 			 */
-			int distance_in_pixel = JvmWrapper::instance().GetDistance();
+			int distance_in_pixel = JvmWrapper::GetInstance().GetDistance();
 			SetColor(COLOR_LIGHT_BLUE);
 			Log(" (distance: " + std::to_string(distance_in_pixel) + " meters) ");
 			SetColor(COLOR_DEFAULT);

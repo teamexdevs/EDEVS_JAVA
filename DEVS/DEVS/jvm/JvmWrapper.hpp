@@ -12,9 +12,14 @@ private:
 
 	std::vector<jobject> cars;
 
-	jclass explainableDEVS;
-	jmethodID mid_tick;
+	jclass _ExplainableDEVSClass;
+	jobject _ExplainableDEVSInstance;
+	jmethodID _TickID;
+	jmethodID _ExecuteID;
+	jmethodID _GetInstanceID;
+	jmethodID _UpdateLaneStatusID;
 	jmethodID _GetLaneStatusID;
+	jmethodID _SpawnCarID;
 
 	JvmWrapper();
 	~JvmWrapper();
@@ -25,19 +30,19 @@ public:
 	}
 
 	bool init();
-	void tick();
 
 	void InitMethodId();
+	void tick();
+	void Execute();
+	bool GetLaneStatus(int lane);
+	void SpawnCar(std::string name, int lane);
 
 	jobject* GetCarByName(std::string);
-	void Draw();
 	int GetDistance();
 	int GetVelocity();
 	void Accelerate(int speed);
 	void Slowdown();
 	void Maintain();
-
-	int* GetLaneStatus();
 };
 
 #endif	// __JVM_WRAPPER_HPP__

@@ -42,7 +42,7 @@ void ActuatorProcess::IntTransitionFN() {
 		/**
 		 * TODO
 		 */
-		JvmWrapper::instance().Accelerate(0);
+		JvmWrapper::GetInstance().Accelerate(0);
 		if (!queue.empty()) {
 			job_id = queue.front();
 			SetColor(COLOR_LIGHT_RED);

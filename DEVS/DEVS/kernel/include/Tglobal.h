@@ -14,7 +14,8 @@ enum Color {
 	COLOR_LIGHT_RED = 12, COLOR_LIGHT_PURPLE = 13, COLOR_LIGHT_YELLOW = 14, COLOR_BRIGHT_WHITE = 15
 };
 
-void Log(std::string val);
+void Log(std::string);
+void Logerr(std::string);
 void NextLine(int lines = 1);
 
 void SetColor(Color color);

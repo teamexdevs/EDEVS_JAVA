@@ -30,7 +30,8 @@ void Generator::OutputFN(void) {
 	if (Phase == "busy") {
 		// TODO: 메시지 내용
 		// TODO: 새로운 자동차 추가
-		JvmWrapper::GetInstance().LaneStatus();
+		bool laneStatus = JvmWrapper::GetInstance().GetLaneStatus(1);
+
 		MakeContent("out", "Job-" + std::to_string(Count++));
 	}
 }

@@ -23,12 +23,16 @@ int main()
 	//std::thread t = std::thread(init_jvm);
 	init_jvm();
 
+	for (int i = 1; i <= 3; ++i) {
+		JvmWrapper::GetInstance().SpawnCar("Car#" + std::to_string(i), i);
+	}
+
 	// DEVS
 	Log(" ============ DEVS ================ \n");
 	efp = new EntStr("ef-p");
 
 	// ========================== PRE-DEFINE and PASSIVATE =============================
-	const int NumberOfCars = 1000;
+	const int NumberOfCars = 10;
 	const int LookingSeconds = 100;
 
 	Log("Generating car processes..\n");
@@ -88,7 +92,7 @@ int main()
 
 void init_jvm() {
 	Log(" ============ JVM ================ \n");
-	static JvmWrapper& jvm = JvmWrapper::instance();
+	static JvmWrapper& jvm = JvmWrapper::GetInstance();
 	jvm.init();
 }
 
