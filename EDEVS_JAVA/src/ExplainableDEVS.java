@@ -35,6 +35,7 @@ public class ExplainableDEVS extends JPanel {
 	}
 
 	public void spawnCar(String name, int lane) {
+		System.out.println(String.format("[System] spawnCar(name=%s, lane=%d)", name, lane));
 		switch ((int) (Math.random() * 100) % 5) {
 			case 0:
 				cars.put(name, new Taxi(name, lane)); break;
@@ -66,7 +67,9 @@ public class ExplainableDEVS extends JPanel {
 		g.drawLine(0, y1, getWidth(), y1);
 		g.drawLine(0, y2, getWidth(), y2);
 
-		cars.forEach((name, car) -> car.draw(g));
+		//for (SelfDrivingCar car: cars.values())
+		//	car.draw(g);
+		cars.values().forEach(car -> car.draw(g));
 		//System.out.println(String.format("Repaint: %d cars left..", cars.size()));
 	}
 
@@ -75,7 +78,7 @@ public class ExplainableDEVS extends JPanel {
 			final int lane = i;
 			isEmpty[lane-1] = cars.values().stream()
 					.filter(car -> car.getLane() == lane)
-					.allMatch(car -> car.getX() >= GlobalVariables.WIDTH / 4);
+					.noneMatch(car -> car.getX() < GlobalVariables.WIDTH / 4);
 		}
 	}
 
@@ -118,12 +121,20 @@ public class ExplainableDEVS extends JPanel {
 	}
 
 	public void tick() {
+		//if (cars.size() < 10)
+		//	spawnCar("Car@" + System.currentTimeMillis(), (int) (Math.random() * 100) % 3 + 1);
 		List<String> carsOutOfRange = cars.keySet().stream()
 				.filter(name -> cars.get(name).getX() >= GlobalVariables.WIDTH)
 				.collect(Collectors.toList());
 		carsOutOfRange.forEach(name -> cars.remove(name));
 		updateLaneStatus();
 		repaint();
+
+		try {
+			Thread.sleep(100);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void close() {

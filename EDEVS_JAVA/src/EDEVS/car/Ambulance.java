@@ -20,8 +20,8 @@ public class Ambulance extends SelfDrivingCar {
         tick();
         g.setColor(Color.WHITE);
         g.fillRect(x + 20, y + 10, width + 105, height + 45);
-        g.setColor(Color.LIGHT_GRAY);
-        g.fillRect(x + 140, y + 40, width + 20, height + 20);
+        //g.setColor(Color.DARK_GRAY);
+        //g.fillRect(x + 140, y + 40, width + 20, height + 20);
         g.setColor(Color.BLACK);
         g.fillOval(x + 40, y + 60, radius + 10, radius + 10);
         g.fillOval(x + 95, y + 60, radius + 10, radius + 10);

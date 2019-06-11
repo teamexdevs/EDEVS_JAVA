@@ -18,8 +18,11 @@ void Generator::ExtTransitionFN(double E, DevsMessage X) {
 
 void Generator::IntTransitionFN(void) {
 	Log(Name + "(INT) --> Sigma: " + std::to_string(Sigma) + " / When: " + std::to_string(AddTime(GetLastEventTime(), Sigma)));
-	if (Phase == "busy") { HoldIn("busy", InterArrivalTime); }
-	else { Passivate(); }
+	if (Phase == "busy") {
+		HoldIn("busy", InterArrivalTime);
+	} else {
+		Passivate();
+	}
 	NextLine();
 }
 
@@ -58,7 +61,7 @@ void Generator::OutputFN(void) {
 }
 
 void Generator::InitializeFN(void) {
-	InterArrivalTime = 3;
+	InterArrivalTime = 1;
 	Count = 0;
 
 	HoldIn("busy", 0.0);

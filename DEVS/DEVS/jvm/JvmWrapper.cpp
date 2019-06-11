@@ -114,7 +114,8 @@ bool JvmWrapper::GetLaneStatus(int lane) {
 }
 
 void JvmWrapper::SpawnCar(std::string name, int lane) {
-	env->CallVoidMethod(_ExplainableDEVSInstance, _SpawnCarID, name, lane);
+	jstring jstr = env->NewStringUTF(name.c_str());
+	env->CallVoidMethod(_ExplainableDEVSInstance, _SpawnCarID, jstr, lane);
 
 	// TODO: Activate DEVS
 }
