@@ -72,6 +72,8 @@ void SensorProcess::OutputFN() {
 	if (Phase == "busy") {
 		if (rand() % 100 < 30) {
 			MakeContent("crossed", job_id);
+			Passivate();
+			return;
 		}
 		MakeContent("out", job_id);
 	}

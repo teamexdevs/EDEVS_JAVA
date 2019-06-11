@@ -16,6 +16,7 @@ public:
 	void SetLimit(double);
 	int  SetCurrentItem(Model*);
 	int  SetCurrentItem(std::string);
+	Model* GetCurrentItem();
 	int  AddItem(Model*);
 	int  AddCouple(Model*, Model*, std::string, std::string);
 	int  AddCouple(std::string, std::string, std::string, std::string);

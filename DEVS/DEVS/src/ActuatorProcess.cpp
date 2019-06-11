@@ -17,7 +17,7 @@ void ActuatorProcess::InitializeFN() {
 
 void ActuatorProcess::ExtTransitionFN(double time, DevsMessage message) {
 	Log(Name + "(EXT) --> ");
-	if (message.ContentPort() == "accel" || message.ContentPort() == "slowdown" || message.ContentPort() == "maintain") {
+	if (message.ContentPort() == "accel" || message.ContentPort() == "slowdown") {
 		queue.push(message.ContentValue());
 		Log(message.ContentPort() + ":" + message.ContentValue());
 		if (Phase == message.ContentPort()) {
@@ -68,19 +68,6 @@ void ActuatorProcess::IntTransitionFN() {
 			Passivate();
 		}
 	}
-	else if (Phase == "maintain") {
-		if (!queue.empty()) {
-			job_id = queue.front();
-			SetColor(COLOR_LIGHT_GREEN);
-			Log(" process: " + job_id);
-			SetColor(COLOR_DEFAULT);
-			HoldIn("busy", processing_time);
-			queue.pop();
-		}
-		else {
-			Passivate();
-		}
-	}
 	else if (Phase == "crossed") {
 		Passivate();
 	}
@@ -95,7 +82,7 @@ void ActuatorProcess::IntTransitionFN() {
 
 void ActuatorProcess::OutputFN() {
 	Log(Name + "(OUT) --> ");
-	if (Phase == "accel" || Phase == "slowdown" || Phase == "maintain") {
+	if (Phase == "accel" || Phase == "slowdown") {
 		MakeContent("out", job_id);
 	}
 	else if (Phase == "crossed") {

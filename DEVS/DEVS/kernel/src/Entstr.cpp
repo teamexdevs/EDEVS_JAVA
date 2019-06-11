@@ -45,6 +45,10 @@ int  EntStr::SetCurrentItem(std::string Curr){
 	return 1;
 }
 
+Model* EntStr::GetCurrentItem() {
+	return CurrentItem;
+}
+
 int  EntStr::AddItem(Model *M) {
 	if (M == nullptr) {
 		std::cerr << "Null pointer assigned!" << std::endl;
