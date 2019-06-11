@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -60,15 +61,11 @@ public class ExplainableDEVS extends JPanel {
 			}
 		}
 
-		ArrayList<SelfDrivingCar> achievedCars = new ArrayList<>();
-		for (SelfDrivingCar car: cars) {
-			if (car.getX() >= GlobalVariables.WIDTH) {
-				achievedCars.add(car);
-			} else {
-				car.draw(g);
-			}
-		}
-		cars.removeAll(achievedCars);
+		cars.removeAll(
+				cars.stream()
+						.filter(car -> car.getX() >= GlobalVariables.WIDTH)
+						.collect(Collectors.toList()));
+		cars.forEach(car -> car.draw(g));
 		System.out.println(String.format("Repaint: %d cars left..", cars.size()));
 	}
 
