@@ -137,6 +137,8 @@ void EntStr::StepStart(void) {
 
 	Log("One step ended...");
 	OutputFN(TTime);
+	// FIXME: remove
+	std::getchar();
 }
 
 

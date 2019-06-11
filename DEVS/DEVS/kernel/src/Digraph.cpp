@@ -32,7 +32,7 @@ void Digraph::IntTransition(double Time){
 	 if (Parent) Parent->Done((Model *)this,GetNextEventTime());
 */
 
-void Digraph::Inject(Model *From, DevsMessage MSG, double Time){
+void Digraph::Inject(Model *From, DevsMessage MSG, double Time) {
 	 PortPair *PPair, *Temp;
 	 std::string  PPort;
 

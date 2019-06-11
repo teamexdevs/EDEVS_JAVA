@@ -68,9 +68,9 @@ void SensorProcess::IntTransitionFN() {
 		}
 		int distance = JvmWrapper::GetInstance().GetDistance(car_id);
 		Log("[SensorProcess] " + car_id + " :: distance: " + std::to_string(distance) + "\n");
-		if (distance <= 300) {
+		if (distance <= 150) {
 			Log("[SensorProcess] slowdown " + car_id + " speed 1..\n");
-			JvmWrapper::GetInstance().Slowdown(car_id, 1);
+			JvmWrapper::GetInstance().Slowdown(car_id, 5);
 			Log("[SensorProcess] " + car_id + " has decelerated..\n");
 		}
 		/*
