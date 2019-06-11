@@ -92,12 +92,3 @@ void init_jvm() {
 	static JvmWrapper& jvm = JvmWrapper::GetInstance();
 	jvm.init();
 }
-
-void GenerateNewCar() {
-	Log(" ============ Generate New Car ============ \n");
-	if (efp == nullptr) return;
-	Model *temp = efp->GetCurrentItem();
-	BindableModel *newCarModel = new BindableModel("SelfDriveProcess#N");
-	efp->SetCurrentItem("ef-p");
-	efp->AddChild(newCarModel);
-}

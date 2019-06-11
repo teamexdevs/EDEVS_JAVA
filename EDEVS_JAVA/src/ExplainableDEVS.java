@@ -5,7 +5,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
@@ -13,7 +14,7 @@ import javax.swing.JPanel;
 
 public class ExplainableDEVS extends JPanel {
 
-	private ArrayList<SelfDrivingCar> cars = new ArrayList<>();
+	private HashMap<String, SelfDrivingCar> cars = new HashMap<>();
 	private boolean[] isEmpty = new boolean[3];
 
 	private ExplainableDEVS() {
@@ -34,15 +35,15 @@ public class ExplainableDEVS extends JPanel {
 	public void spawnCar(String name, int lane) {
 		switch ((int) (Math.random() * 100) % 5) {
 			case 0:
-				cars.add(new Taxi(name, lane)); break;
+				cars.put(name, new Taxi(name, lane)); break;
 			case 1:
-				cars.add(new Truck(name, lane)); break;
+				cars.put(name, new Truck(name, lane)); break;
 			case 2:
-				cars.add(new Ambulance(name, lane)); break;
+				cars.put(name, new Ambulance(name, lane)); break;
 			case 3:
-				cars.add(new Sedan(name, lane)); break;
+				cars.put(name, new Sedan(name, lane)); break;
 			case 4:
-				cars.add(new PoliceCar(name, lane));
+				cars.put(name, new PoliceCar(name, lane));
 		}
 	}
 
@@ -59,14 +60,14 @@ public class ExplainableDEVS extends JPanel {
 		g.drawLine(0, y1, getWidth(), y1);
 		g.drawLine(0, y2, getWidth(), y2);
 
-		cars.forEach(car -> car.draw(g));
-		//System.out.println(String.format("Repaint: %d cars left..", cars.size()));
+		cars.forEach((name, car) -> car.draw(g));
+		System.out.println(String.format("Repaint: %d cars left..", cars.size()));
 	}
 
 	public void updateLaneStatus() {
 		for (int i = 1; i <= 3; ++i) {
 			final int lane = i;
-			isEmpty[lane-1] = cars.stream()
+			isEmpty[lane-1] = cars.values().stream()
 					.filter(car -> car.getLane() == lane)
 					.allMatch(car -> car.getX() >= GlobalVariables.WIDTH / 4);
 		}
@@ -111,10 +112,10 @@ public class ExplainableDEVS extends JPanel {
 	}
 
 	public void tick() {
-		cars.removeAll(
-				cars.stream()
-						.filter(car -> car.getX() >= GlobalVariables.WIDTH)
-						.collect(Collectors.toList()));
+		List<String> carsOutOfRange = cars.keySet().stream()
+				.filter(name -> cars.get(name).getX() >= GlobalVariables.WIDTH)
+				.collect(Collectors.toList());
+		carsOutOfRange.forEach(name -> cars.remove(name));
 		updateLaneStatus();
 		repaint();
 	}
