@@ -14,17 +14,20 @@ private:
 
 	jclass explainableDEVS;
 	jmethodID mid_tick;
+	jmethodID _GetLaneStatusID;
 
 	JvmWrapper();
 	~JvmWrapper();
 public:
-	static JvmWrapper& instance() {
+	static JvmWrapper& GetInstance() {
 		static JvmWrapper* instance = new JvmWrapper();
 		return *instance;
 	}
 
 	bool init();
 	void tick();
+
+	void InitMethodId();
 
 	jobject* GetCarByName(std::string);
 	void Draw();
@@ -33,6 +36,8 @@ public:
 	void Accelerate(int speed);
 	void Slowdown();
 	void Maintain();
+
+	int* GetLaneStatus();
 };
 
 #endif	// __JVM_WRAPPER_HPP__

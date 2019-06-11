@@ -6,7 +6,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,12 +20,21 @@ public class ExplainableDEVS extends JPanel {
 	private ArrayList<SelfDrivingCar> cars = new ArrayList<>();
 
 	private ExplainableDEVS() {
+		explainableDEVS = new ExplainableDEVS();
 		setBackground(Color.lightGray);
 		cars.add(new Taxi("Taxi", 1));
 		cars.add(new Truck("Truck", 2));
 		cars.add(new Ambulance("Ambulance", 3));
 		//cars.add(new Sedan("Sedan"));
 		//cars.add(new PoliceCar("PoliceCar"));
+	}
+
+	private static class Holder {
+		private final static ExplainableDEVS Instance = new ExplainableDEVS();
+	}
+
+	public static ExplainableDEVS getInstance() {
+		return Holder.Instance;
 	}
 
 	public void paintComponent(Graphics g) {
@@ -67,6 +78,23 @@ public class ExplainableDEVS extends JPanel {
 						.collect(Collectors.toList()));
 		cars.forEach(car -> car.draw(g));
 		System.out.println(String.format("Repaint: %d cars left..", cars.size()));
+	}
+
+	public boolean[] getLaneStatus() {
+		boolean[] isEmpty = new boolean[3];
+		for (int i = 1; i <= 3; ++i) {
+			final int lane = i;
+			isEmpty[i] = cars.stream()
+					.filter(car -> car.getLane() == lane)
+					.allMatch(car -> car.getX() >= GlobalVariables.WIDTH / 4);
+		}
+		return isEmpty;
+		/*
+		return Stream.of(1, 2, 3).map(lane -> cars.stream()
+				.filter(car -> car.getLane() == lane)
+				.noneMatch(car -> car.getX() >= GlobalVariables.WIDTH / 4))
+				.collect(Collectors.toList());
+		*/
 	}
 
 	public static void main(String[] args) {

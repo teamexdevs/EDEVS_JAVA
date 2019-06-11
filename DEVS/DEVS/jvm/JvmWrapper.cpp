@@ -95,6 +95,10 @@ void JvmWrapper::tick() {
 	env->CallStaticVoidMethod(explainableDEVS, mid_tick);
 }
 
+void JvmWrapper::InitMethodId() {
+	_GetLaneStatusID = env->GetMethodID(edevs)
+}
+
 void JvmWrapper::Draw() {
 
 }
@@ -117,5 +121,9 @@ void JvmWrapper::Slowdown() {
 }
 
 void JvmWrapper::Maintain() {
+
+}
+
+int* JvmWrapper::GetLaneStatus() {
 
 }
