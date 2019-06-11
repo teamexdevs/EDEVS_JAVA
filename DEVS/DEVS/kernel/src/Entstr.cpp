@@ -119,6 +119,7 @@ void EntStr::StepStart(void) {
 	TTime = CClock;
 
 	do {
+		Log("[" + GetClassName() + "] do-while step..\n");
 		Time = Children.GetMinTime();
 		if (CClock != Time) break;
 		SetClock(Time); 

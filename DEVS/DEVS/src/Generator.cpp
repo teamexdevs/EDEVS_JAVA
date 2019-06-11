@@ -30,7 +30,20 @@ void Generator::OutputFN(void) {
 	if (Phase == "busy") {
 		// TODO: 메시지 내용
 		// TODO: 새로운 자동차 추가
-		bool laneStatus = JvmWrapper::GetInstance().GetLaneStatus(1);
+		for (int lane = 1; lane <= 3; ++lane) {
+			bool laneStatus = JvmWrapper::GetInstance().GetLaneStatus(lane);
+			if (laneStatus == true) {
+				SetColor(COLOR_AQUA);
+				Log("[Generator] Lane #" + std::to_string(lane) + " is empty.\n");
+				JvmWrapper::GetInstance().SpawnCar("Car#" + std::to_string(++NumberOfCars), lane);
+				Log("[Generator] Car#" + std::to_string(NumberOfCars) + " has spawned.\n");
+				SetColor(COLOR_DEFAULT);
+			}
+			else {
+				Log("[Generator] Lane #" + std::to_string(lane) + " is not empty.\n");
+			}
+		}
+		Log("[Generator_OutputFN] Lane finished.\n");
 
 		MakeContent("out", "Job-" + std::to_string(Count++));
 	}
@@ -41,4 +54,16 @@ void Generator::InitializeFN(void) {
 	Count = 0;
 
 	HoldIn("busy", 0.0);
+}
+
+int Generator::GetNumberOfCars() {
+	return NumberOfCars;
+}
+
+int Generator::GetMaxNumberOfCars() {
+	return MaxNumberOfCars;
+}
+
+int Generator::GetLookingSeconds() {
+	return LookingSeconds;
 }

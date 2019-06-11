@@ -17,7 +17,6 @@ private:
 	jmethodID _TickID;
 	jmethodID _ExecuteID;
 	jmethodID _GetInstanceID;
-	jmethodID _UpdateLaneStatusID;
 	jmethodID _GetLaneStatusID;
 	jmethodID _SpawnCarID;
 
@@ -41,8 +40,7 @@ public:
 	int GetDistance();
 	int GetVelocity();
 	void Accelerate(int speed);
-	void Slowdown();
-	void Maintain();
+	void Slowdown(int speed);
 };
 
 #endif	// __JVM_WRAPPER_HPP__

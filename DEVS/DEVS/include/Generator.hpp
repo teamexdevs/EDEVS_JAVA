@@ -5,11 +5,15 @@
 #include "../kernel/include/Atomic.hpp"
 
 class Generator : public Atomic {
-public:
+private:
 	int     InterArrivalTime;
 //	int     ProcessingTime;
 //	int     ProblemLevel;
 	int     Count;
+
+	int NumberOfCars = 0;
+	static const int MaxNumberOfCars = 10;
+	static const int LookingSeconds = 100;
 	
 public:
 	Generator();
@@ -19,6 +23,10 @@ public:
 	void IntTransitionFN(void);
 	void OutputFN(void);
 	void InitializeFN(void);
+
+	int GetNumberOfCars();
+	static int GetMaxNumberOfCars();
+	static int GetLookingSeconds();
 };
 
 #endif	// __GENERATOR_HPP__

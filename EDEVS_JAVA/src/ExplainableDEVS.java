@@ -60,20 +60,20 @@ public class ExplainableDEVS extends JPanel {
 		g.drawLine(0, y2, getWidth(), y2);
 
 		cars.forEach(car -> car.draw(g));
-		System.out.println(String.format("Repaint: %d cars left..", cars.size()));
+		//System.out.println(String.format("Repaint: %d cars left..", cars.size()));
 	}
 
 	public void updateLaneStatus() {
 		for (int i = 1; i <= 3; ++i) {
 			final int lane = i;
-			isEmpty[i] = cars.stream()
+			isEmpty[lane-1] = cars.stream()
 					.filter(car -> car.getLane() == lane)
 					.allMatch(car -> car.getX() >= GlobalVariables.WIDTH / 4);
 		}
 	}
 
 	public boolean getLaneStatus(int lane) {
-		return isEmpty[lane];
+		return isEmpty[lane-1];
 	}
 
 	/*
@@ -115,6 +115,7 @@ public class ExplainableDEVS extends JPanel {
 				cars.stream()
 						.filter(car -> car.getX() >= GlobalVariables.WIDTH)
 						.collect(Collectors.toList()));
+		updateLaneStatus();
 		repaint();
 	}
 

@@ -5,6 +5,7 @@
 #include <string>
 #include <cmath>
 #include <ctime>
+#include <iostream>
 using namespace std;
 
 #if defined(_WIN32)
@@ -76,7 +77,7 @@ void JvmWrapper::InitMethodId() {
 		Logerr("ERROR: method void tick() not found!\n");
 	}
 	Log("Getting method \"static void execute()\"..\n");
-	_ExecuteID = env->GetStaticMethodID(_ExplainableDEVSClass, "execute", "()V");	// void
+	_ExecuteID = env->GetStaticMethodID(_ExplainableDEVSClass, "execute", "()V");
 	if (_ExecuteID == nullptr) {
 		Logerr("ERROR: method void execute() not found!\n");
 	}
@@ -85,13 +86,8 @@ void JvmWrapper::InitMethodId() {
 	if (_GetInstanceID == nullptr) {
 		Logerr("ERROR: method ExplainableDEVS getInstance() not found!\n");
 	}
-	Log("Getting method \"void updateLaneStatus()\"..\n");
-	_UpdateLaneStatusID = env->GetMethodID(_ExplainableDEVSClass, "updateLaneStatus", "()V");
-	if (_UpdateLaneStatusID == nullptr) {
-		Logerr("ERROR: method \"void updateLaneStatus()\" not found!\n");
-	}
 	Log("Getting method \"boolean getLaneStatus(int lane)\"..\n");
-	_GetLaneStatusID = env->GetMethodID(_ExplainableDEVSClass, "getLaneStatus", "(I)Z");	// boolean[]
+	_GetLaneStatusID = env->GetMethodID(_ExplainableDEVSClass, "getLaneStatus", "(I)Z");
 	if (_GetLaneStatusID == nullptr) {
 		Logerr("ERROR: method \"boolean getLaneStatus(int lane)\" not found!\n");
 	}
@@ -116,11 +112,14 @@ void JvmWrapper::Execute() {
 }
 
 bool JvmWrapper::GetLaneStatus(int lane) {
+	std::cout << "GetLaneStatus[" << lane << "]: " << env->CallBooleanMethod(_ExplainableDEVSInstance, _GetLaneStatusID, lane) << std::endl;
 	return env->CallBooleanMethod(_ExplainableDEVSInstance, _GetLaneStatusID, lane) == JNI_TRUE;
 }
 
 void JvmWrapper::SpawnCar(std::string name, int lane) {
 	env->CallVoidMethod(_ExplainableDEVSInstance, _SpawnCarID, name, lane);
+
+	// TODO: Activate DEVS
 }
 
 int JvmWrapper::GetDistance() {
@@ -136,10 +135,6 @@ void JvmWrapper::Accelerate(int speed) {
 	//env->CallVoidMethod();
 }
 
-void JvmWrapper::Slowdown() {
-
-}
-
-void JvmWrapper::Maintain() {
+void JvmWrapper::Slowdown(int speed) {
 
 }

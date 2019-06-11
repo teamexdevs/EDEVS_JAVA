@@ -22,22 +22,19 @@ int main()
 	// Jvm
 	//std::thread t = std::thread(init_jvm);
 	init_jvm();
-
+	/*
 	for (int i = 1; i <= 3; ++i) {
 		JvmWrapper::GetInstance().SpawnCar("Car#" + std::to_string(i), i);
 	}
-
+	*/
 	// DEVS
 	Log(" ============ DEVS ================ \n");
 	efp = new EntStr("ef-p");
 
 	// ========================== PRE-DEFINE and PASSIVATE =============================
-	const int NumberOfCars = 10;
-	const int LookingSeconds = 100;
-
 	Log("Generating car processes..\n");
 	SetColor(COLOR_AQUA);
-	for (int i = 1; i <= NumberOfCars; ++i) {
+	for (int i = 1; i <= Generator::GetMaxNumberOfCars(); ++i) {
 		std::string bid = "SelfDriveProcess#" + std::to_string(i);
 		BindableModel *selfDriveProcess = new BindableModel(bid);
 		efp->AddItem(selfDriveProcess);
